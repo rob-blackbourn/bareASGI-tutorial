@@ -1,0 +1,30 @@
+app:
+  host: 0.0.0.0
+  port: 9501
+  path_prefix: /blog
+
+logging:
+  version: 1
+  formatters:
+    simple:
+      format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  handlers:
+    stdout:
+      class: logging.StreamHandler
+      formatter: simple
+      stream: ext://sys.stdout
+  loggers:
+    bareasgi_blog:
+      level: DEBUG
+      handlers:
+        - stdout
+      propagate: false
+    bareasgi:
+      level: DEBUG
+      handlers:
+        - stdout
+      propagate: false
+  root:
+    level: DEBUG
+    handlers:
+      - stdout
