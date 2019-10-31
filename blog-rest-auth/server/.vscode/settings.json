@@ -1,0 +1,9 @@
+{
+  "python.pythonPath": ".venv/bin/python3",
+  "cSpell.words": [
+    "asctime",
+    "lastrowid",
+    "levelname",
+    "rowid"
+  ]
+}
