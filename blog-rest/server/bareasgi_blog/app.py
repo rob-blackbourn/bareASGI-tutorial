@@ -10,7 +10,6 @@ from bareasgi import (
     Info,
     Message
 )
-import pkg_resources
 
 from .blog_repository import BlogRepository
 from .blog_rest_controller import BlogRestController
@@ -44,12 +43,6 @@ async def _on_shutdown(
 
 def create_application(path_prefix: str) -> Application:
     """Create the application"""
-    api_path_prefix = path_prefix + '/api'
-    ui_path_prefix = path_prefix + '/ui'
-    templates = pkg_resources.resource_filename(__name__, "templates")
-
     app = Application(info={})
-
-
-    app.startup_handlers.append(partial(_on_startup, app, api_path_prefix))
+    app.startup_handlers.append(partial(_on_startup, app, path_prefix))
     return app

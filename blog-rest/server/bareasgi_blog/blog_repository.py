@@ -26,7 +26,7 @@ class BlogRepository(Repository):
         }
         inserts.update(kwargs)
         return await super().create(**inserts)
-        
+
     async def read_between(
             self,
             start_date: datetime,
@@ -71,43 +71,3 @@ CREATE TABLE IF NOT EXISTS blog_entry
 )
 """)
         await self._conn.commit()
-
-# async def main():
-#     conn = await aiosqlite.connect(
-#           ':memory:',
-#           detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES
-#       )
-#     repo = BlogRepository(conn)
-#     await repo.initialise()
-#     now = datetime.now()
-#     id_ = await repo.create(
-#           title='Test',
-#           description='Testing',
-#           content='This is not a test',
-#           created=now, updated=now
-#        )
-#     blog_entry = await repo.read_by_id(id_)
-#     print(blog_entry)
-#     await repo.update(id_, title='Test0', description='Testing0')
-#     blog_entry = await repo.read_by_id(id_)
-#     print(blog_entry)
-#     await repo.delete(id_)
-#     blog_entry = await repo.read_by_id(id_)
-#     print(blog_entry)
-
-#     now = datetime.now()
-#     await repo.create(title='Test1', description='Testing1', content='This is not a test1', created=now, updated=now)
-#     now = datetime.now()
-#     await repo.create(title='Test2', description='Testing2', content='This is not a test2', created=now, updated=now)
-#     now = datetime.now()
-#     await repo.create(title='Test3', description='Testing3', content='This is not a test3', created=now, updated=now)
-#     now = datetime.now()
-#     blog_entries = await repo.read_between(now - timedelta(1), now + timedelta(1))
-#     print(blog_entries)
-#     await conn.close()
-
-
-
-# if __name__ == '__main__':
-#     import asyncio
-#     asyncio.run(main())
