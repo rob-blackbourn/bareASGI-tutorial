@@ -8,12 +8,8 @@ from bareasgi import (
     Application,
     Scope,
     Info,
-    RouteMatches,
-    Content,
-    Message,
-    HttpResponse
+    Message
 )
-import pkg_resources
 
 from .blog_repository import BlogRepository
 from .blog_rest_controller import BlogRestController
