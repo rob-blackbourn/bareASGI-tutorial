@@ -8,13 +8,8 @@ from bareasgi import (
     Application,
     Scope,
     Info,
-    RouteMatches,
-    Content,
-    Message,
-    HttpResponse
+    Message
 )
-import bareasgi_jinja2
-import jinja2
 import pkg_resources
 
 from .blog_repository import BlogRepository
