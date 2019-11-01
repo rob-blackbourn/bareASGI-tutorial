@@ -83,14 +83,16 @@ class BlogController:
     ) -> Dict[str, Any]:
         jwt = info['jwt']
         latest_ten_entries = await self._repository.read_many(
-            ['title', 'description'],
+            None,
             'created',
             False,
             10
         )
         return {
             'blog_entries': latest_ten_entries,
-            'role': jwt['role']
+            'role': jwt['role'],
+            'username': jwt['sub'],
+            'user_id': jwt['user_id']
         }
 
     @bareasgi_jinja2.template('blog/edit.html')
@@ -106,12 +108,15 @@ class BlogController:
             raise RuntimeError("Unauthorized")
 
         return {
-            'action': '/create',
+            'action': '/blog/create',
             'blog_entry': {
                 'title': '',
                 'description': '',
                 'content': '',
-            }
+            },
+            'role': jwt['role'],
+            'username': jwt['sub'],
+            'user_id': jwt['user_id']
         }
 
     async def _save_create(
@@ -128,6 +133,7 @@ class BlogController:
 
             text = await text_reader(content)
             args = dict(parse_qsl(text))
+            args['user_id'] = jwt['user_id']
 
             id_ = await self._repository.create(**args)
             href = f'/blog/read?id={id_}'
@@ -140,14 +146,20 @@ class BlogController:
     async def _read(
             self,
             scope: Scope,
-            _info: Info,
+            info: Info,
             _matches: RouteMatches,
             _content: Content
     ) -> Dict[str, Any]:
+        jwt = info['jwt']
         args = dict(parse_qsl(scope['query_string'] or b''))
-        id_ = int(args[b'id'])
-        blog_entry = await self._repository.read_by_id(id_, None)
-        return {'blog_entry': blog_entry}
+        blog_entry_id = int(args[b'id'])
+        blog_entry = await self._repository.read_by_id(blog_entry_id, None)
+        return {
+            'blog_entry': blog_entry,
+            'role': jwt['role'],
+            'username': jwt['sub'],
+            'user_id': jwt['user_id']
+        }
 
     @bareasgi_jinja2.template('blog/edit.html')
     async def _update(
@@ -162,27 +174,41 @@ class BlogController:
             raise RuntimeError("Unauthorized")
 
         args = dict(parse_qsl(scope['query_string'] or b''))
-        id_ = int(args[b'id'])
-        blog_entry = await self._repository.read_by_id(id_, None)
+        blog_entry_id = int(args[b'id'])
+        blog_entry = await self._repository.read_by_id(blog_entry_id, None)
+        if blog_entry is None:
+            raise RuntimeError("Not found")
+        if blog_entry['user_id'] != jwt['id']:
+            raise RuntimeError("Unauthorized")
+
         return {
-            'action': f'/blog/update?id={id_}',
-            'blog_entry': blog_entry
+            'action': f'/blog/update?id={blog_entry_id}',
+            'blog_entry': blog_entry,
+            'role': jwt['role'],
+            'username': jwt['sub'],
+            'user_id': jwt['user_id']
         }
 
     async def _save_update(
             self,
             _scope: Scope,
-            _info: Info,
+            info: Info,
             _matches: RouteMatches,
             content: Content
     ) -> HttpResponse:
         try:
+            jwt = info['jwt']
+
             text = await text_reader(content)
             args = dict(parse_qsl(text))
-            id_ = int(args.pop('id'))
+            blog_entry_id = int(args.pop('id'))
 
-            await self._repository.update(id_, **args)
-            href = f'/blog/read?id={id_}'
+            original_blog_entry = await self._repository.read_by_id(blog_entry_id, ['user_id'])
+            if original_blog_entry is None or original_blog_entry['user_id'] != jwt['user_id']:
+                return 401
+
+            await self._repository.update(blog_entry_id, **args)
+            href = f'/blog/read?id={blog_entry_id}'
 
             return 303, [(b'Location', href.encode())]
         except:  # pylint: disable=bare-except
@@ -191,14 +217,20 @@ class BlogController:
     async def _delete(
             self,
             scope: Scope,
-            _info: Info,
+            info: Info,
             _matches: RouteMatches,
             _content: Content
     ) -> HttpResponse:
         try:
+            jwt = info['jwt']
             args = dict(parse_qsl(scope['query_string'] or b''))
-            id_ = int(args[b'id'])
-            await self._repository.delete(id_)
+            blog_entry_id = int(args[b'id'])
+
+            original_blog_entry = await self._repository.read_by_id(blog_entry_id, ['user_id'])
+            if original_blog_entry is None or original_blog_entry['user_id'] != jwt['user_id']:
+                return 401
+
+            await self._repository.delete(blog_entry_id)
             return 303, [(b'Location', b'/blog/index')]
         except:  # pylint: disable=bare-except
             return 500

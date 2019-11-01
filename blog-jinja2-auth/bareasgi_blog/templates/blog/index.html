@@ -19,9 +19,11 @@
             {{ blog_entry['description']}}
 
             [
-            <a href="/blog/read?id={{ blog_entry['id'] }}">read</a>,
-            <a href="/blog/update?id={{ blog_entry['id'] }}">edit</a>,
+            <a href="/blog/read?id={{ blog_entry['id'] }}">read</a>
+            {% if user_id == blog_entry['user_id'] %}
+            <a href="/blog/update?id={{ blog_entry['id'] }}">edit</a>
             <a href="/blog/delete?id={{ blog_entry['id'] }}">delete</a>
+            {% endif %}
             ]
 
         </dt>
@@ -30,6 +32,13 @@
     </dl>
     {% endif %}
 
+    {% if role in ['admin', 'blogger'] %}
     <p><a href="/blog/create">Create</a> a blog entry</p>
+    {% else %}
+    <p>Awaiting approval for posting</p>
+    {% endif %}
 </div>
+<footer>
+    <p>Logged in as {{ username }}</p>
+</footer>
 {% endblock %}

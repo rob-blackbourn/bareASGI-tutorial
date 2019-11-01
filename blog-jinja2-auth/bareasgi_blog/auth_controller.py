@@ -117,11 +117,11 @@ class AuthController:
             role = 'reader'
             args['role'] = role
 
-            is_ok = await self._repository.create(**args)
-            if not is_ok:
+            user_id = await self._repository.create(**args)
+            if not user_id:
                 raise RuntimeError("Failed to register")
 
-            set_cookie = self._authenticator.create_token(args['username'], role)
+            set_cookie = self._authenticator.create_token(args['username'], user_id, role)
 
             return (
                 303,
@@ -165,7 +165,7 @@ class AuthController:
             if user is None:
                 raise RuntimeError("Failed to find user")
 
-            set_cookie = self._authenticator.create_token(username, user['role'])
+            set_cookie = self._authenticator.create_token(username, user['id'], user['role'])
             location = b'/auth/admin' if user['role'] == 'admin' else b'/blog/index'
 
             return (
@@ -192,7 +192,7 @@ class AuthController:
             raise RuntimeError("Unauthenticated")
 
         users = await self._repository.read_many(
-            ['username', 'role'],
+            ['id', 'username', 'role'],
             'username',
             True,
             10000
@@ -210,7 +210,7 @@ class AuthController:
             jwt = info['jwt']
             if jwt.get('role') != 'admin':
                 return 401
-            
+
             args: Dict[bytes, Any] = dict(parse_qsl(scope['query_string']))
             id_ = int(args[b'id'])
             role = args[b'role'].decode()
@@ -258,5 +258,5 @@ class AuthController:
 
             return 303, [(b'Location', b'/blog/index')]
         except:  # pylint: disable=bare-except
-            LOGGER.exception('grant failed')
+            LOGGER.exception('failed to change password')
             return 500

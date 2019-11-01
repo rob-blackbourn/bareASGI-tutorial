@@ -48,6 +48,7 @@ class JwtAuthenticator:
 
         username: str = payload['sub']
         issued_at: datetime = payload['iat']
+        user_id: int = payload['user_id']
         role: str = payload['role']
 
         logger.debug(
@@ -73,17 +74,17 @@ class JwtAuthenticator:
             return None
 
         logger.debug('Token renewed for %s', user)
-        token = self._token_manager.encode(username, utc_now, issued_at, role)
+        token = self._token_manager.encode(username, utc_now, issued_at, user_id, role)
         logger.debug('Sending token %s', token)
 
         set_cookie = self._token_manager.make_cookie(token)
 
         return set_cookie
 
-    def create_token(self, username: str, role: str) -> bytes:
+    def create_token(self, username: str, user_id: int, role: str) -> bytes:
         """Create a token"""
         now = datetime.utcnow()
-        token = self._token_manager.encode(username, now, now, role)
+        token = self._token_manager.encode(username, now, now, user_id, role)
         return self._token_manager.make_cookie(token)
 
     async def __call__(

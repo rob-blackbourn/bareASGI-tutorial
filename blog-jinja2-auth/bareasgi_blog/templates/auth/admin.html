@@ -14,9 +14,15 @@
         <li>
             {{ user['username']}} ({{ user['role']}})
             - [
-            <a href="/auth/grant?id={{user['id']}}&role=blogger">allow</a>,
-            <a href="/auth/grant?id={{user['id']}}&role=reader">deny</a>,
+            {% if user['role'] != 'blogger' %}
+            <a href="/auth/grant?id={{user['id']}}&role=blogger">allow</a>
+            {% endif %}
+            {% if user['role'] != 'reader' %}
+            <a href="/auth/grant?id={{user['id']}}&role=reader">deny</a>
+            {% endif %}
+            {% if user['role'] != 'admin' %}
             <a href="/auth/grant?id={{user['id']}}&role=admin">make admin</a>
+            {% endif %}
             ]
         </li>
         {% endfor %}

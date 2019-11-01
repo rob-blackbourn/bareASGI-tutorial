@@ -41,12 +41,13 @@ class AuthRepository(Repository):
         await self._conn.execute("""
 CREATE TABLE IF NOT EXISTS users
 (
+    id INTEGER PRIMARY KEY,
     username TEXT NOT NULL,
     hash TEXT NOT NULL,
     salt TEXT NOT NULL,
     role TEXT NOT NULL,
 
-    PRIMARY KEY(username)
+    UNIQUE(username)
 )
 """)
         await self._conn.commit()

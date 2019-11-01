@@ -6,7 +6,7 @@
 <div>
     <h1>Read Blog Entry</h1>
 
-    <h2>{{ blog_entry['title'] }}</h2>
+    <h2>{{ blog_entry['title'] }} (by {{ blog_entry['username'] }})</h2>
 
     {% if blog_entry['description'] %}
     <h3>{{ blog_entry['description'] }}</h3>
@@ -18,4 +18,7 @@
         <a href="/blog/index">Index</a>
     </p>
 </div>
+<footer>
+    <p>Logged in as {{ username }}</p>
+</footer>
 {% endblock %}

@@ -58,6 +58,7 @@ class TokenManager:
             username: str,
             now: datetime,
             issued_at: datetime,
+            user_id: int,
             role: str
     ) -> bytes:
         """Encode the cookie as a JSON web token
@@ -68,6 +69,8 @@ class TokenManager:
         :type now: datetime
         :param issued_at: The time the cookie was issued
         :type issued_at: datetime
+        :param user_id: The user id
+        :type user_id: int
         :param role: The role
         :type role: str
         :return: The information encoded as a JSON web token
@@ -80,6 +83,7 @@ class TokenManager:
             'sub': username,
             'exp': expiry,
             'iat': issued_at,
+            'user_id': user_id,
             'role': role
         }
         return jwt.encode(payload, key=self.secret)
@@ -129,7 +133,7 @@ class TokenManager:
         payload = self.decode(token) if token is not None else None
         return payload
 
-    def generate_cookie(self, username: str, role: str) -> bytes:
+    def generate_cookie(self, username: str, user_id: int, role: str) -> bytes:
         """Generate a new cookie
 
         :param username: The username
@@ -138,7 +142,7 @@ class TokenManager:
         :rtype: bytes
         """
         now = datetime.utcnow()
-        token = self.encode(username, now, now, role)
+        token = self.encode(username, now, now, user_id, role)
         return self.make_cookie(token)
 
     def make_cookie(self, token: bytes) -> bytes:

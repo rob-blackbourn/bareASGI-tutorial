@@ -1,7 +1,6 @@
 """Repository"""
 
 from abc import ABCMeta, abstractmethod
-from datetime import datetime
 from typing import (
     Any,
     Callable,
@@ -14,7 +13,8 @@ from typing import (
 import aiosqlite
 
 
-def _make_unpacker(cur: aiosqlite.Cursor) -> Callable[[Tuple], Dict[str, Any]]:
+def make_unpacker(cur: aiosqlite.Cursor) -> Callable[[Tuple], Dict[str, Any]]:
+    """Make an unpacker"""
     columns = [name for name, *_ in cur.description]
     return lambda row: dict(zip(columns, row))
 
@@ -24,12 +24,12 @@ class Repository(metaclass=ABCMeta):
 
     def __init__(self, conn: aiosqlite.Connection, table: str) -> None:
         self._conn = conn
-        self._table = table
+        self.table = table
 
     async def create(self, **kwargs) -> int:
         """Create a record"""
         stmt = f"""
-INSERT INTO {self._table}({','.join(kwargs.keys())})
+INSERT INTO {self.table}({','.join(kwargs.keys())})
 VALUES ({','.join('?' for _ in range(len(kwargs)))})
 """
         args = tuple(kwargs.values())
@@ -45,7 +45,7 @@ VALUES ({','.join('?' for _ in range(len(kwargs)))})
             columns: Optional[List[str]]
     ) -> Optional[Dict[str, Any]]:
         """Read a record by it's id"""
-        return await self.read_by_column('rowid', id_, columns)
+        return await self.read_by_column('id', id_, columns)
 
     async def read_by_column(
             self,
@@ -55,8 +55,8 @@ VALUES ({','.join('?' for _ in range(len(kwargs)))})
     ) -> Optional[Dict[str, Any]]:
         """Read a record by a column value"""
         stmt = f"""
-SELECT rowid AS id,{','.join(columns) if columns else '*'}
-FROM {self._table}
+SELECT {','.join(columns) if columns else '*'}
+FROM {self.table}
 WHERE {column} = ?
 """
         args = (value,)
@@ -66,7 +66,7 @@ WHERE {column} = ?
             row = await cur.fetchone()
             if row is None:
                 return None
-            result = _make_unpacker(cur)(row)
+            result = make_unpacker(cur)(row)
             return result
 
     async def read_between_column(
@@ -81,8 +81,8 @@ WHERE {column} = ?
     ) -> List[Dict[str, Any]]:
         """Read records for a column between values"""
         stmt = f"""
-SELECT rowid AS id,{','.join(columns) if columns else '*'}
-FROM {self._table}
+SELECT {','.join(columns) if columns else '*'}
+FROM {self.table}
 WHERE {column} BETWEEN ? AND ?
 ORDER BY {order_by_column} {'ASC' if order_by_ascending else 'DESC'}
 LIMIT ?
@@ -91,7 +91,7 @@ LIMIT ?
 
         async with self._conn.cursor() as cur:
             await cur.execute(stmt, args)
-            unpack = _make_unpacker(cur)
+            unpack = make_unpacker(cur)
             values = [unpack(row) async for row in cur]
             return values
 
@@ -104,8 +104,8 @@ LIMIT ?
     ) -> List[Dict[str, Any]]:
         """Read many records"""
         stmt = f"""
-SELECT rowid AS id,{','.join(columns) if columns else '*'}
-FROM {self._table}
+SELECT {','.join(columns) if columns else '*'}
+FROM {self.table}
 ORDER BY {order_by_column} {'ASC' if order_by_ascending else 'DESC'}
 LIMIT ?
 """
@@ -113,7 +113,7 @@ LIMIT ?
 
         async with self._conn.cursor() as cur:
             await cur.execute(stmt, args)
-            unpack = _make_unpacker(cur)
+            unpack = make_unpacker(cur)
             values = [unpack(row) async for row in cur]
             return values
 
@@ -128,8 +128,8 @@ LIMIT ?
     ) -> List[Dict[str, Any]]:
         """Read many records"""
         stmt = f"""
-SELECT rowid AS id,{','.join(columns) if columns else '*'}
-FROM {self._table}
+SELECT {','.join(columns) if columns else '*'}
+FROM {self.table}
 WHERE {column} = ?
 ORDER BY {order_by_column} {'ASC' if order_by_ascending else 'DESC'}
 LIMIT ?
@@ -138,7 +138,7 @@ LIMIT ?
 
         async with self._conn.cursor() as cur:
             await cur.execute(stmt, args)
-            unpack = _make_unpacker(cur)
+            unpack = make_unpacker(cur)
             values = [unpack(row) async for row in cur]
             return values
 
@@ -147,9 +147,9 @@ LIMIT ?
             **kwargs
     ) -> bool:
         """Update a record"""
-        stmt = f"""UPDATE {self._table}
+        stmt = f"""UPDATE {self.table}
 SET {','.join(f'{key}=?' for key in kwargs)}
-WHERE rowid=?"""
+WHERE id=?"""
         args = *kwargs.values(), id_
         async with self._conn.cursor() as cur:
             await cur.execute(stmt, args)
@@ -161,8 +161,8 @@ WHERE rowid=?"""
     ) -> bool:
         """Delete a record"""
         stmt = f"""
-DELETE FROM {self._table}
-WHERE rowid=?
+DELETE FROM {self.table}
+WHERE id=?
 """
         args = (id_,)
         async with self._conn.cursor() as cur:
