@@ -76,12 +76,12 @@ class AuthController:
         app.http_router.add(
             {'GET'},
             '/auth/change-password',
-            self._change_password
+            mw(self._authenticator, handler=self._change_password)
         )
         app.http_router.add(
             {'POST'},
             '/auth/change-password',
-            self._save_change_password
+            mw(self._authenticator, handler=self._save_change_password)
         )
 
     async def _index_redirect(
@@ -241,13 +241,14 @@ class AuthController:
             scope: Scope,
             _info: Info,
             _matches: RouteMatches,
-            _content: Content
+            content: Content
     ) -> HttpResponse:
         try:
-            args: Dict[bytes, Any] = dict(parse_qsl(scope['query_string']))
-            username = args[b'username'].decode()
-            old_password = args[b'old_password'].decode()
-            new_password = args[b'new_password'].decode()
+            text = await text_reader(content)
+            args: Dict[str, Any] = dict(parse_qsl(text))
+            username = args['username']
+            old_password = args['old_password']
+            new_password = args['new_password']
 
             if not await self._repository.is_valid_password(username, old_password):
                 return 303, [(b'location', b'/auth/change-password')]
