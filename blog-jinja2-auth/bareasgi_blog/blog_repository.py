@@ -16,7 +16,7 @@ class BlogRepository(Repository):
     """"BlogRepository"""
 
     def __init__(self, conn: aiosqlite.Connection) -> None:
-        super().__init__(conn, 'blog_entry')
+        super().__init__(conn, 'blog_entries')
 
     async def create(self, **kwargs) -> int:
         now = datetime.utcnow()
@@ -57,11 +57,23 @@ class BlogRepository(Repository):
             limit
         )
 
+    async def update(
+        self,
+        id_: int,
+        **kwargs
+    ) -> bool:
+        updates = {
+            'updated': datetime.utcnow()
+        }
+        updates.update(kwargs)
+        return await super().update(id_, **updates)
+
+
     async def initialise(self) -> None:
-        """Initialise the repository"""
         await self._conn.execute("""
-CREATE TABLE IF NOT EXISTS blog_entry
+CREATE TABLE IF NOT EXISTS blog_entries
 (
+    user_id INTEGER NOT NULL,
     title TEXT NOT NULL,
     description TEXT NULL,
     content TEXT NULL,

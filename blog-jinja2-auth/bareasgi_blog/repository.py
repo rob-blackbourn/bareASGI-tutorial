@@ -13,9 +13,11 @@ from typing import (
 
 import aiosqlite
 
+
 def _make_unpacker(cur: aiosqlite.Cursor) -> Callable[[Tuple], Dict[str, Any]]:
     columns = [name for name, *_ in cur.description]
     return lambda row: dict(zip(columns, row))
+
 
 class Repository(metaclass=ABCMeta):
     """"Repository"""
@@ -44,7 +46,6 @@ VALUES ({','.join('?' for _ in range(len(kwargs)))})
     ) -> Optional[Dict[str, Any]]:
         """Read a record by it's id"""
         return await self.read_by_column('rowid', id_, columns)
-
 
     async def read_by_column(
             self,
@@ -116,19 +117,40 @@ LIMIT ?
             values = [unpack(row) async for row in cur]
             return values
 
+    async def read_many_by_column(
+            self,
+            column: str,
+            value: Any,
+            columns: Optional[List[str]],
+            order_by_column: str,
+            order_by_ascending: bool,
+            limit: int
+    ) -> List[Dict[str, Any]]:
+        """Read many records"""
+        stmt = f"""
+SELECT rowid AS id,{','.join(columns) if columns else '*'}
+FROM {self._table}
+WHERE {column} = ?
+ORDER BY {order_by_column} {'ASC' if order_by_ascending else 'DESC'}
+LIMIT ?
+"""
+        args = (value, limit)
+
+        async with self._conn.cursor() as cur:
+            await cur.execute(stmt, args)
+            unpack = _make_unpacker(cur)
+            values = [unpack(row) async for row in cur]
+            return values
+
     async def update(
             self, id_: int,
             **kwargs
     ) -> bool:
         """Update a record"""
-        updates = {
-            'updated': datetime.utcnow()
-        }
-        updates.update(kwargs)
         stmt = f"""UPDATE {self._table}
-SET {','.join(f'{key}=?' for key in updates)}
+SET {','.join(f'{key}=?' for key in kwargs)}
 WHERE rowid=?"""
-        args = *updates.values(), id_
+        args = *kwargs.values(), id_
         async with self._conn.cursor() as cur:
             await cur.execute(stmt, args)
             await self._conn.commit()

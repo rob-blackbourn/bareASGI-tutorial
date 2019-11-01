@@ -1,9 +1,26 @@
 app:
   host: 0.0.0.0
   port: 9501
+  keyfile: ~/.keys/server.key
+  certfile: ~/.keys/server.crt
 
 sqlite:
-  filename: ":memory:"
+  filename: "/tmp/blog-jinja2-auth.sqlite"
+
+auth:
+  admin_username: admin
+  admin_password: trustno1
+
+authentication:
+  cookie_name: bareasgi-blog
+  secret: "not a very secret password"
+  token_expiry: 1h
+  login_expiry: 1d
+  domain: bhdgsystematic.com
+  issuer: bhdgsystematic.com
+  path: /
+  max_age: 1d
+  token_renewal_path: /renew_token
 
 logging:
   version: 1

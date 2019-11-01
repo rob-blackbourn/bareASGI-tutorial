@@ -2,6 +2,7 @@
 
 import asyncio
 import logging
+import os.path
 from typing import Any, Dict
 
 from hypercorn.asyncio import serve
@@ -24,14 +25,18 @@ def start_server() -> None:
     config = _load_config(pkg_resources.resource_filename(__name__, "config.yml"))
 
     app_config = config['app']
-    path_prefix = app_config['path_prefix']
     host = app_config['host']
     port = app_config['port']
+    certfile = os.path.expanduser(app_config['certfile'])
+    keyfile = os.path.expanduser(app_config['keyfile'])
 
     _initialise_logging(config)
-    app = create_application(path_prefix)
+    app = create_application(config)
     http_config = Config()
     http_config.bind = [f"{host}:{port}"]
+    http_config.certfile = certfile
+    http_config.keyfile = keyfile
+
     asyncio.run(serve(app, http_config))
 
 

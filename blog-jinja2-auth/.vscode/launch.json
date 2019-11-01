@@ -6,7 +6,8 @@
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/bareasgi_blog/server.py",
-      "console": "integratedTerminal"
+      "console": "integratedTerminal",
+      "justMyCode": false
     }
   ]
 }

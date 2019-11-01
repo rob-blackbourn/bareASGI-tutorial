@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% set title = "Example 1" %}
+
+{% block content %}
+<div>
+    <h1>Admin</h1>
+
+    <h2>Users</h2>
+
+    <ul>
+        {% for user in users %}
+
+        <li>
+            {{ user['username']}} ({{ user['role']}})
+            - [
+            <a href="/auth/grant?id={{user['id']}}&role=blogger">allow</a>,
+            <a href="/auth/grant?id={{user['id']}}&role=reader">deny</a>,
+            <a href="/auth/grant?id={{user['id']}}&role=admin">make admin</a>
+            ]
+        </li>
+        {% endfor %}
+    </ul>
+
+</div>
+{% endblock %}

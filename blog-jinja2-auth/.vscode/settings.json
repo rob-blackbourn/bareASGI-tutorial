@@ -5,8 +5,12 @@
   "python.linting.mypyEnabled": true,
   "cSpell.words": [
     "asctime",
+    "auths",
+    "endblock",
     "lastrowid",
     "levelname",
-    "rowid"
+    "rowid",
+    "signin",
+    "trustno"
   ]
 }

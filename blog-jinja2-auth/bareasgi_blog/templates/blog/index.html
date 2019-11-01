@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% set title = "Blog" %}
+
+{% block content %}
+<div>
+    <h1>Blog</h1>
+
+    {% if blog_entries %}
+    <h1>Read a blog</h1>
+
+    <dl>
+        {% for blog_entry in blog_entries %}
+
+        <dt>
+            {{ blog_entry['title']}}
+        </dt>
+        <dd>
+            {{ blog_entry['description']}}
+
+            [
+            <a href="/blog/read?id={{ blog_entry['id'] }}">read</a>,
+            <a href="/blog/update?id={{ blog_entry['id'] }}">edit</a>,
+            <a href="/blog/delete?id={{ blog_entry['id'] }}">delete</a>
+            ]
+
+        </dt>
+
+        {% endfor %}
+    </dl>
+    {% endif %}
+
+    <p><a href="/blog/create">Create</a> a blog entry</p>
+</div>
+{% endblock %}

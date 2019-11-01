@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% set title = "Login" %}
+
+{% block content %}
+<div>
+    <h1>Register</h1>
+
+    <form action="/auth/register" method="POST">
+    
+        Username:<br>
+        <input type="text" name="username"><br>
+    
+        Password:<br>
+        <input type="password" name="password"><br>
+
+        <br>
+        <input type="submit" value="Register">
+
+    </form>
+
+    <p>
+        Or <a href="/auth/login">login</a>.
+    </p>
+</div>
+{% endblock %}
