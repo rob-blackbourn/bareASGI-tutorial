@@ -1,9 +1,35 @@
 {% extends "base.html" %}
 
-{% set title = "Example 1" %}
+{% set title = "Blog" %}
 
 {% block content %}
 <div>
-    <p>Hello {{ api_path }} </p>
+    <h1>Blog</h1>
+
+    {% if blog_entries %}
+    <h1>Read a blog</h1>
+
+    <dl>
+        {% for blog_entry in blog_entries %}
+
+        <dt>
+            {{ blog_entry['title']}}
+        </dt>
+        <dd>
+            {{ blog_entry['description']}}
+
+            [
+            <a href="/read.html?id={{ blog_entry['id'] }}">read</a>,
+            <a href="/update.html?id={{ blog_entry['id'] }}">edit</a>,
+            <a href="/delete.html?id={{ blog_entry['id'] }}">delete</a>
+            ]
+
+        </dt>
+
+        {% endfor %}
+    </dl>
+    {% endif %}
+
+    <p><a href="/create.html">Create</a> a blog entry</p>
 </div>
 {% endblock %}

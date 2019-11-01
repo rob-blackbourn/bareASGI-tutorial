@@ -3,5 +3,22 @@
   "python.linting.pylintEnabled": true,
   "python.linting.pylintUseMinimalCheckers": false,
   "python.linting.mypyEnabled": true,
-  "editor.formatOnSave": true
+  "[python]": {
+    "editor.formatOnSave": true,
+  },
+  "[html]": {
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false
+  },
+  "python.testing.promptToConfigure": false,
+  "python.testing.pytestEnabled": false,
+  "python.testing.unittestEnabled": false,
+  "python.testing.nosetestsEnabled": false,
+  "cSpell.words": [
+    "asctime",
+    "lastrowid",
+    "levelname",
+    "rowid"
+  ]
 }

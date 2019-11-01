@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% set title = "Read blog entry" %}
+
+{% block content %}
+<div>
+    <h1>Read Blog Entry</h1>
+
+    <h2>{{ blog_entry['title'] }}</h2>
+
+    {% if blog_entry['description'] %}
+    <h3>{{ blog_entry['description'] }}</h3>
+    {% endif %}
+
+    <p>{{ blog_entry['content'] }}</p>
+
+    <p>
+        <a href="/index.html">Index</a>
+    </p>
+</div>
+{% endblock %}
