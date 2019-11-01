@@ -3,6 +3,9 @@ app:
   port: 9501
   path_prefix: /blog
 
+sqlite:
+  filename: ":memory:"
+
 logging:
   version: 1
   formatters:

@@ -24,12 +24,11 @@ def start_server() -> None:
     config = _load_config(pkg_resources.resource_filename(__name__, "config.yml"))
 
     app_config = config['app']
-    path_prefix = app_config['path_prefix']
     host = app_config['host']
     port = app_config['port']
 
     _initialise_logging(config)
-    app = create_application(path_prefix)
+    app = create_application(config)
     http_config = Config()
     http_config.bind = [f"{host}:{port}"]
     asyncio.run(serve(app, http_config))
