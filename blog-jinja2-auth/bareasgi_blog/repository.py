@@ -1,8 +1,7 @@
 """Repository"""
 
 from abc import ABCMeta, abstractmethod
-from datetime import datetime, timedelta
-import sqlite3
+from datetime import datetime
 from typing import (
     Any,
     Callable,
@@ -18,7 +17,7 @@ def _make_unpacker(cur: aiosqlite.Cursor) -> Callable[[Tuple], Dict[str, Any]]:
     columns = [name for name, *_ in cur.description]
     return lambda row: dict(zip(columns, row))
 
-class Repository:
+class Repository(metaclass=ABCMeta):
     """"Repository"""
 
     def __init__(self, conn: aiosqlite.Connection, table: str) -> None:
@@ -26,8 +25,11 @@ class Repository:
         self._table = table
 
     async def create(self, **kwargs) -> int:
-        stmt = f"""INSERT INTO {self._table}({','.join(kwargs.keys())})
-VALUES ({','.join('?' for _ in range(len(kwargs)))})"""
+        """Create a record"""
+        stmt = f"""
+INSERT INTO {self._table}({','.join(kwargs.keys())})
+VALUES ({','.join('?' for _ in range(len(kwargs)))})
+"""
         args = tuple(kwargs.values())
 
         async with self._conn.cursor() as cur:
@@ -40,6 +42,7 @@ VALUES ({','.join('?' for _ in range(len(kwargs)))})"""
             id_: int,
             columns: Optional[List[str]]
     ) -> Optional[Dict[str, Any]]:
+        """Read a record by it's id"""
         return await self.read_by_column('rowid', id_, columns)
 
 
@@ -49,9 +52,12 @@ VALUES ({','.join('?' for _ in range(len(kwargs)))})"""
             value: Any,
             columns: Optional[List[str]]
     ) -> Optional[Dict[str, Any]]:
-        stmt = f"""SELECT rowid AS id,{','.join(columns) if columns else '*'}
+        """Read a record by a column value"""
+        stmt = f"""
+SELECT rowid AS id,{','.join(columns) if columns else '*'}
 FROM {self._table}
-WHERE {column} = ?"""
+WHERE {column} = ?
+"""
         args = (value,)
 
         async with self._conn.cursor() as cur:
@@ -68,14 +74,18 @@ WHERE {column} = ?"""
             start_value: Any,
             end_value: Any,
             columns: Optional[List[str]],
-            order_by: str,
+            order_by_column: str,
+            order_by_ascending: bool,
             limit: int
     ) -> List[Dict[str, Any]]:
-        stmt = f"""SELECT rowid AS id,{','.join(columns) if columns else '*'}
+        """Read records for a column between values"""
+        stmt = f"""
+SELECT rowid AS id,{','.join(columns) if columns else '*'}
 FROM {self._table}
 WHERE {column} BETWEEN ? AND ?
-ORDER BY {order_by}
-LIMIT ?"""
+ORDER BY {order_by_column} {'ASC' if order_by_ascending else 'DESC'}
+LIMIT ?
+"""
         args = (start_value, end_value, limit)
 
         async with self._conn.cursor() as cur:
@@ -84,11 +94,20 @@ LIMIT ?"""
             values = [unpack(row) async for row in cur]
             return values
 
-    async def read_many(self, columns: Optional[List[str]], order_by: str, limit: int) -> List[Dict[str, Any]]:
-        stmt = f"""SELECT rowid AS id,{','.join(columns) if columns else '*'}
+    async def read_many(
+            self,
+            columns: Optional[List[str]],
+            order_by_column: str,
+            order_by_ascending: bool,
+            limit: int
+    ) -> List[Dict[str, Any]]:
+        """Read many records"""
+        stmt = f"""
+SELECT rowid AS id,{','.join(columns) if columns else '*'}
 FROM {self._table}
-ORDER BY {order_by}
-LIMIT ?"""
+ORDER BY {order_by_column} {'ASC' if order_by_ascending else 'DESC'}
+LIMIT ?
+"""
         args = (limit,)
 
         async with self._conn.cursor() as cur:
@@ -97,7 +116,11 @@ LIMIT ?"""
             values = [unpack(row) async for row in cur]
             return values
 
-    async def update(self, id_: int, **kwargs) -> bool:
+    async def update(
+            self, id_: int,
+            **kwargs
+    ) -> bool:
+        """Update a record"""
         updates = {
             'updated': datetime.utcnow()
         }
@@ -111,8 +134,14 @@ WHERE rowid=?"""
             await self._conn.commit()
             return cur.rowcount == 1
 
-    async def delete(self, id_: int) -> bool:
-        stmt = f"""DELETE FROM {self._table} WHERE rowid=?"""
+    async def delete(
+            self, id_: int
+    ) -> bool:
+        """Delete a record"""
+        stmt = f"""
+DELETE FROM {self._table}
+WHERE rowid=?
+"""
         args = (id_,)
         async with self._conn.cursor() as cur:
             await cur.execute(stmt, args)
@@ -121,4 +150,4 @@ WHERE rowid=?"""
 
     @abstractmethod
     async def initialise(self) -> None:
-        pass
+        """Initialise the repository"""
