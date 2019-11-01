@@ -2,7 +2,7 @@
 name = "bareASGI-blog"
 version = "0.1.0"
 description = ""
-authors = ["Rob Blackbourn <rblackbourn@gmail.com>"]
+authors = ["Rob Blackbourn <rob.blackbourn@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
