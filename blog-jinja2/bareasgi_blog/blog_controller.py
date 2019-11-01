@@ -1,6 +1,5 @@
 """Blog jinja2 controller"""
 
-import json
 from typing import Any, Dict
 from urllib.parse import parse_qsl
 

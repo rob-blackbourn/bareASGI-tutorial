@@ -9,10 +9,7 @@ from bareasgi import (
     Application,
     Scope,
     Info,
-    RouteMatches,
-    Content,
-    Message,
-    HttpResponse
+    Message
 )
 import bareasgi_jinja2
 import jinja2
@@ -53,17 +50,6 @@ async def _on_shutdown(
     await conn.close()
 
 
-async def _index_redirect(
-        redirect_path: str,
-        _scope: Scope,
-        _info: Info,
-        _matches: RouteMatches,
-        _content: Content
-) -> HttpResponse:
-    """Redirect to the example"""
-    return 303, [(b'Location', redirect_path.encode())]
-
-
 def create_application(config: Mapping[str, Any]) -> Application:
     """Create the application"""
     templates = pkg_resources.resource_filename(__name__, "templates")
@@ -76,9 +62,6 @@ def create_application(config: Mapping[str, Any]) -> Application:
         enable_async=True
     )
     bareasgi_jinja2.add_jinja2(app, env)
-
-    app.http_router.add(
-        {'GET'}, '/', partial(_index_redirect, '/index.html'))
 
     app.startup_handlers.append(partial(_on_startup, app))
     return app
