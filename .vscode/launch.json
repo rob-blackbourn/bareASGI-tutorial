@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Hello World",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/examples/hello_world.py",
+            "console": "integratedTerminal"
+        }
+    ]
+}
