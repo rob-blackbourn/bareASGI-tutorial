@@ -36,7 +36,7 @@ configurations.
 
 ## Hello, World!
 
-Here's a simple hello world program with a link to the source code [here](examples/hello_world_nt.py), and here [here](examples/hello_world.py) with typing.
+Here's a simple hello world program with a link to the source code [here](../examples/hello_world_nt.py), and here [here](../examples/hello_world.py) with typing.
 
 ```python
 import uvicorn
