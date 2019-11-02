@@ -51,3 +51,4 @@ async def http_request_handler(scope, info, matches, content):
 uvicorn.run(app, port=9009)
 ```
 
+Browsing to http://localhost:9009 will show "Hello, World!".
