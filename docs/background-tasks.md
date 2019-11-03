@@ -62,6 +62,9 @@ async def time_ticker_startup_handler(scope, info, request):
     )
 ```
 
+Note that the shutdown event was created in the startup handler. This is
+**critical**. I'll discuss why in the "Gotcha!" section.
+
 ## The Shutdown Handler
 
 Here is the code for the shutdown handler.
@@ -204,3 +207,24 @@ bad would happen, and no data would be lost.
 The event approach is useful where cancelling the task would result in some
 kind of corrupt state. For example if a database write was in progress, or
 a message queue was being serviced.
+
+## Gotcha!
+
+If we had a large program running many background tasks with multiple startup
+handlers, it would seem reasonable to create the shutdown event right at the
+start.
+
+```python
+# This won't work!
+app = Application(info={'shutdown_event': asyncio.Event()})
+```
+
+Unfortunately this won't work and will lead to hours of frustration.
+
+When an ASGI server starts it creates a **new** event loop. However the
+`asyncio.Event()` call attached the event to the existing event loop. At the
+point the event is awaited you will get an error telling you the coroutine was
+attached to another event loop, which is true, but not helpful!
+
+This is true for anything that can be awaited. They must all be created in the
+context of the ASGI server's event loop.
