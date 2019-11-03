@@ -70,6 +70,27 @@
             "request": "launch",
             "program": "${workspaceFolder}/examples/https_uvicorn.py",
             "console": "integratedTerminal"
-        }
+        },
+        {
+            "name": "Global middleware",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/examples/global_middleware.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Global middleware (no types)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/examples/global_middleware_nt.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Local middleware",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/examples/local_middleware.py",
+            "console": "integratedTerminal"
+        },
     ]
 }

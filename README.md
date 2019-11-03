@@ -9,3 +9,4 @@ A tutorial for the bareASGI web framework.
 * [Lifespan](docs/lifespan.md)
 * [Background Tasks](docs/background-tasks.md)
 * [HTTPS](docs/https.md)
+* [Middleware](docs/middleware.md)
