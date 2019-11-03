@@ -1,7 +1,6 @@
 import asyncio
 import logging
 import signal
-from typing import Any, List
 
 from hypercorn.asyncio import serve
 from hypercorn.config import Config
@@ -23,7 +22,7 @@ async def on_shutdown(scope, info, request):
 
 
 async def http_request_callback(scope, info, matches, content):
-    headers: List[Header] = [
+    headers = [
         (b'content-type', b'text/plain')
     ]
     return 200, headers, text_writer('This is not a test')
@@ -46,7 +45,7 @@ elif HTTP_SERVER == "hypercorn":
 
     shutdown_event = asyncio.Event()
 
-    def _signal_handler(*_: Any) -> None:
+    def _signal_handler(*_):
         shutdown_event.set()
     loop.add_signal_handler(signal.SIGTERM, _signal_handler)
     loop.add_signal_handler(signal.SIGINT, _signal_handler)

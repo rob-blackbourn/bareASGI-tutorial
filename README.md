@@ -7,3 +7,4 @@ A tutorial for the bareASGI web framework.
 * [Getting started](docs/getting-started.md)
 * [Simple REST](docs/simple-rest.md)
 * [Lifespan](docs/lifespan.md)
+* [Background Tasks](docs/background-tasks.md)

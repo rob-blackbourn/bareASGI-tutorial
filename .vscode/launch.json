@@ -30,10 +30,24 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "Lifespan REST (with types)",
+            "name": "Lifespan (with types)",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/examples/lifespan.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Lifespan (no types)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/examples/lifespan_nt.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Background Tasks (with types)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/examples/background_tasks.py",
             "console": "integratedTerminal"
         }
     ]
