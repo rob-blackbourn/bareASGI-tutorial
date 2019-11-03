@@ -49,6 +49,27 @@
             "request": "launch",
             "program": "${workspaceFolder}/examples/background_tasks.py",
             "console": "integratedTerminal"
+        },
+        {
+            "name": "Background Tasks (no types)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/examples/background_tasks_nt.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "HTTPS (hypercorn)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/examples/https_hypercorn.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "HTTPS (uvicorn)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/examples/https_uvicorn.py",
+            "console": "integratedTerminal"
         }
     ]
 }
