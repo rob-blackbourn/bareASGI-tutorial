@@ -1,5 +1,5 @@
 import uvicorn
-from bareasgi import Application
+from bareasgi import Application, text_writer
 
 app = Application()
 

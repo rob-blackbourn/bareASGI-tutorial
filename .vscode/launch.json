@@ -2,10 +2,38 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Hello World",
+            "name": "Hello World (with types)",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/examples/hello_world.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Hello World (no types)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/examples/hello_world_nt.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Simple REST (with types)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/examples/simple_rest.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Simple REST (no types)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/examples/simple_rest_nt.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Lifespan REST (with types)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/examples/lifespan.py",
             "console": "integratedTerminal"
         }
     ]

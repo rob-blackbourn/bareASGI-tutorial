@@ -40,7 +40,7 @@ Here's a simple hello world program with a link to the source code [here](../exa
 
 ```python
 import uvicorn
-from bareasgi import Application
+from bareasgi import Application, bytes_writer
 
 app = Application()
 
