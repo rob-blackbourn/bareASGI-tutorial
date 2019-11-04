@@ -10,3 +10,4 @@ A tutorial for the bareASGI web framework.
 * [Background Tasks](docs/background-tasks.md)
 * [HTTPS](docs/https.md)
 * [Middleware](docs/middleware.md)
+* [WebSockets](docs/websockets.md)

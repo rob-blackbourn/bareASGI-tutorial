@@ -132,3 +132,8 @@ called, but when we browse to http://localhost:9009/without it is not.
 The source code for this example can be found
 [here](../examples/local_middleware.py)
 (and here [here](../examples/local_middleware.py) with typing).
+
+## What next?
+
+Either go back to the [table of contents](../README.md#table-of-contents) or go
+to the [WebSockets](websockets.md) tutorial.

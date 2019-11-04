@@ -1,96 +1,110 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Hello World (with types)",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/examples/hello_world.py",
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "Hello World (no types)",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/examples/hello_world_nt.py",
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "Simple REST (with types)",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/examples/simple_rest.py",
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "Simple REST (no types)",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/examples/simple_rest_nt.py",
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "Lifespan (with types)",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/examples/lifespan.py",
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "Lifespan (no types)",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/examples/lifespan_nt.py",
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "Background Tasks (with types)",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/examples/background_tasks.py",
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "Background Tasks (no types)",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/examples/background_tasks_nt.py",
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "HTTPS (hypercorn)",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/examples/https_hypercorn.py",
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "HTTPS (uvicorn)",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/examples/https_uvicorn.py",
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "Global middleware",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/examples/global_middleware.py",
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "Global middleware (no types)",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/examples/global_middleware_nt.py",
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "Local middleware",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/examples/local_middleware.py",
-            "console": "integratedTerminal"
-        },
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Hello World (with types)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/hello_world.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Hello World (no types)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/hello_world_nt.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Simple REST (with types)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/simple_rest.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Simple REST (no types)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/simple_rest_nt.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Lifespan (with types)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/lifespan.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Lifespan (no types)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/lifespan_nt.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Background Tasks (with types)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/background_tasks.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Background Tasks (no types)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/background_tasks_nt.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "HTTPS (hypercorn)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/https_hypercorn.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "HTTPS (uvicorn)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/https_uvicorn.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Global middleware",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/global_middleware.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Global middleware (no types)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/global_middleware_nt.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Local middleware",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/local_middleware.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Local middleware (no types)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/local_middleware_nt.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Web Socket",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/web_socket.py",
+      "console": "integratedTerminal"
+    },
+  ]
 }
