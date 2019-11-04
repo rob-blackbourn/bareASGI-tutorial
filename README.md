@@ -11,3 +11,4 @@ A tutorial for the bareASGI web framework.
 * [HTTPS](docs/https.md)
 * [Middleware](docs/middleware.md)
 * [WebSockets](docs/websockets.md)
+* [Headers (including cookies)](docs/headers.md)

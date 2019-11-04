@@ -110,3 +110,9 @@ you will have to clamp your haproxy to HTTP/1.1.
 
 If you don't require the two way facility that WebSockets offer you can use
 server sent events or a streaming.
+
+
+## What next?
+
+Either go back to the [table of contents](../README.md#table-of-contents) or go
+to the [headers (including cookies)](headers.md) tutorial.

@@ -106,5 +106,19 @@
       "program": "${workspaceFolder}/examples/web_socket.py",
       "console": "integratedTerminal"
     },
+    {
+      "name": "Web Socket (no types)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/web_socket_nt.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Cookies",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/cookies.py",
+      "console": "integratedTerminal"
+    },
   ]
 }
