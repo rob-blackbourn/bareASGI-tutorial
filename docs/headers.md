@@ -131,3 +131,9 @@ async def get_form(scope, info, matches, content):
 
 It uses another utility function `header.cookies` which simply packs the cookies
 into a dict. Note that multiple cookies of the same name may be passed.
+
+
+## What next?
+
+Either go back to the [table of contents](../README.md#table-of-contents) or go
+to the [cors](cors.md) tutorial.

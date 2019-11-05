@@ -40,6 +40,17 @@ bareutils = ">=3.2,<4.0"
 
 [[package]]
 category = "main"
+description = "CORS support for bareasgi"
+name = "bareasgi-cors"
+optional = false
+python-versions = ">=3.7,<4.0"
+version = "3.1.0"
+
+[package.dependencies]
+bareasgi = ">=3.3,<4.0"
+
+[[package]]
+category = "main"
 description = "Types for bareASGI and bareClient"
 name = "baretypes"
 optional = false
@@ -294,13 +305,14 @@ version = "0.15.0"
 h11 = ">=0.8.1"
 
 [metadata]
-content-hash = "fb69f5086670b17fffdcac6623c638b18971d236fc955689cebd0df61bdafd6d"
+content-hash = "1fb3fec9ff876b48550f12930721190b25bddf72a8b3a87d8c0fb24eed51357b"
 python-versions = "^3.7"
 
 [metadata.hashes]
 astroid = ["09a3fba616519311f1af8a461f804b68f0370e100c9264a035aa7846d7852e33", "5a79c9b4bd6c4be777424593f957c996e20beb5f74e0bc332f47713c6f675efe"]
 autopep8 = ["4d8eec30cc81bc5617dbf1218201d770dc35629363547f17577c61683ccfb3ee"]
 bareasgi = ["288c23f2f1130ebf28edb00fa78eaa0691d61f4d10869a56e82334386e6df603", "5c17b7c777b59d211784caf8d6c83c4a4ac77a88929f137efda2f24dba60f5b7"]
+bareasgi-cors = ["ded37f82ea267c06cfbc02b856cafc753bdd72a76a2bbd3e0786a429a7b381d5", "f96462365d141eff8a06c7376442f7cbdb6cdd359aa874fa31f0fceb2d6dc9d9"]
 baretypes = ["125e6b05ed0f930d4f4a0c88d68435a94950ff7202310daf74ce5d01841400bf", "ab6f8535c76bdf03a601e7923593c6df9e2e3e35c18b4b1cd26f74247ccc8565"]
 bareutils = ["2a4c8c025b1d2884e13bfde161009fea6ecfe8ee282a6cef27b16bf24f1d8854", "be1fe0a926fafc082862c1e4b3ff421b9a9ae9b6ec97b9530a27d4c38ea41d54"]
 click = ["2335065e6395b9e67ca716de5f7526736bfa6ceead690adf616d925bdc622b13", "5b94b49521f6456670fdb30cd82a4eca9412788a93fa6dd6df72c94d5a8ff2d7"]

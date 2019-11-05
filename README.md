@@ -12,3 +12,5 @@ A tutorial for the bareASGI web framework.
 * [Middleware](docs/middleware.md)
 * [WebSockets](docs/websockets.md)
 * [Headers (including cookies)](docs/headers.md)
+* [Cross-Origin Resource Sharing (CORS)](docs/cors.md)
+

@@ -120,5 +120,26 @@
       "program": "${workspaceFolder}/examples/cookies.py",
       "console": "integratedTerminal"
     },
+    {
+      "name": "Cookies (no types",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/cookies_nt.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "CORS REST Server",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/cors_rest_server.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "CORS Web Server",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/cors_web_server.py",
+      "console": "integratedTerminal"
+    },
   ]
 }
