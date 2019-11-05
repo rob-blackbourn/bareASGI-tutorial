@@ -9,5 +9,9 @@
     "lastrowid",
     "levelname",
     "rowid"
-  ]
+  ],
+  "python.testing.promptToConfigure": false,
+  "python.testing.pytestEnabled": false,
+  "python.testing.unittestEnabled": false,
+  "python.testing.nosetestsEnabled": false
 }

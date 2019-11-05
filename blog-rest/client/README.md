@@ -1,1 +1,1 @@
-# Client for blog-rest
+# bareASGI-blog client
