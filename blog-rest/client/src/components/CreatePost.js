@@ -3,7 +3,14 @@ import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
 import PostEditor from './PostEditor'
+import { API_PATH } from '../config'
 
 const styles = theme => ({
   root: {}
@@ -16,13 +23,14 @@ class CreatePost extends React.Component {
       description: '',
       content: ''
     },
-    isCreated: false
+    isCreated: false,
+    error: null
   }
 
   handleCreate = () => {
     const { post } = this.state
 
-    fetch('http://localhost:9501/blog/api/blog_entry', {
+    fetch(API_PATH, {
       method: 'POST',
       body: JSON.stringify({ ...post }),
       headers: new Headers([
@@ -32,13 +40,12 @@ class CreatePost extends React.Component {
       .then(response => {
         if (response.ok) {
           this.setState({ isCreated: true })
-          console.log('Created')
         } else {
-          console.log('Failed')
+          this.setState({ error: 'Unable to save post' })
         }
       })
-      .catch(error => {
-        console.log(error)
+      .catch(() => {
+        this.setState({ error: 'Unable to save post' })
       })
   }
 
@@ -51,11 +58,33 @@ class CreatePost extends React.Component {
     })
   }
 
-  render () {
-    if (this.state.isCreated === true) {
-      return <Redirect to='/blog/ui/index' />
-    }
+  handleDismissDialog = () => {
+    this.setState({ error: null })
+  }
 
+  renderRedirect = () => {
+    return <Redirect to='/blog/ui/index' />
+  }
+
+  renderDialog = () => {
+    return (
+      <Dialog onClose={() => this.handleDismissDialog()} open={this.state.error !== null}>
+        <DialogTitle>Error</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {this.state.error}
+          </DialogContentText>
+          <DialogActions>
+            <Button onClick={() => this.handleDismissDialog()} color='primary'>
+              Dismiss
+            </Button>
+          </DialogActions>
+        </DialogContent>
+      </Dialog>
+    )
+  }
+
+  renderContent = () => {
     const { classes } = this.props
     const { post } = this.state
 
@@ -76,6 +105,16 @@ class CreatePost extends React.Component {
         />
       </div>
     )
+  }
+
+  render () {
+    if (this.state.isCreated === true) {
+      return this.renderRedirect()
+    } else if (this.state.error) {
+      return this.renderDialog()
+    } else {
+      return this.renderContent()
+    }
   }
 }
 
