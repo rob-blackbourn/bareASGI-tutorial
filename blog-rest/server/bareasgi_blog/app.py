@@ -11,14 +11,12 @@ from bareasgi import (
     Message
 )
 from bareasgi_cors import CORSMiddleware
-from bareasgi_cors.cors_provider import ALL_METHODS
 
 from .blog_repository import BlogRepository
 from .blog_rest_controller import BlogRestController
 
 async def _on_startup(
         app: Application,
-        path_prefix: str,
         _scope: Scope,
         info: Info,
         _request: Message
@@ -31,7 +29,7 @@ async def _on_startup(
     blog_repository = BlogRepository(conn)
     await blog_repository.initialise()
 
-    blog_controller = BlogRestController(blog_repository, path_prefix)
+    blog_controller = BlogRestController(blog_repository)
     blog_controller.add_routes(app)
     info['aiosqlite_conn'] = conn
 
@@ -43,12 +41,12 @@ async def _on_shutdown(
     conn: aiosqlite.Connection = info['aiosqlite_conn']
     await conn.close()
 
-def create_application(path_prefix: str) -> Application:
+def create_application() -> Application:
     """Create the application"""
     cors_middleware = CORSMiddleware(
         # allow_methods=ALL_METHODS
     )
     app = Application(info={}, middlewares=[cors_middleware])
-    app.startup_handlers.append(partial(_on_startup, app, path_prefix))
+    app.startup_handlers.append(partial(_on_startup, app))
     app.shutdown_handlers.append(_on_shutdown)
     return app

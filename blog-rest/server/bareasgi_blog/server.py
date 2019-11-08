@@ -55,9 +55,8 @@ def start_server() -> None:
     config = _load_config(pkg_resources.resource_filename(__name__, "config.yml"))
 
     app_config = config['app']
-    path_prefix = app_config['path_prefix']
     _initialise_logging(config)
-    app = create_application(path_prefix)
+    app = create_application()
     start_hypercorn(app, app_config)
 
 

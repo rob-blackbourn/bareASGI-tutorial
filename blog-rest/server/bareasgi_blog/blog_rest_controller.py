@@ -47,9 +47,8 @@ def _parse_int(value: Optional[bytes], default: int) -> int:
 class BlogRestController:
     """BlogRestController"""
 
-    def __init__(self, repository: BlogRepository, path_prefix: str) -> None:
+    def __init__(self, repository: BlogRepository) -> None:
         self._repository = repository
-        self._path = f'{path_prefix}/blog_entry'
 
     def add_routes(self, app: Application) -> None:
         """Add routes to the application
@@ -57,13 +56,29 @@ class BlogRestController:
         :param app: The ASGI application
         :type app: Application
         """
-        app.http_router.add({'POST', 'OPTIONS'}, f'{self._path}', self._create)
-        app.http_router.add({'GET'}, f'{self._path}/{{id:int}}', self._read)
-        app.http_router.add({'GET'}, f'{self._path}', self._read_between)
-        app.http_router.add({'POST', 'OPTIONS'}, f'{self._path}/{{id:int}}', self._update)
+        app.http_router.add(
+            {'POST', 'OPTIONS'},
+            '/blog/api/post',
+            self._create
+        )
+        app.http_router.add(
+            {'GET'},
+            '/blog/api/post/{id:int}',
+            self._read
+        )
+        app.http_router.add(
+            {'GET'},
+            '/blog/api/post',
+            self._read_between
+        )
+        app.http_router.add(
+            {'POST', 'OPTIONS'},
+            '/blog/api/post/{id:int}',
+            self._update
+        )
         app.http_router.add(
             {'DELETE', 'OPTIONS'},
-            f'{self._path}/{{id:int}}',
+            '/blog/api/post/{id:int}',
             self._delete
         )
 
@@ -90,7 +105,7 @@ class BlogRestController:
                 text_writer(
                     json.dumps({
                         'id': id_,
-                        'read': f'{self._path}/{id_}'
+                        'read': f'/blog/api/post/{id_}'
                     })
                 )
             )
@@ -187,7 +202,7 @@ class BlogRestController:
                 text_writer(
                     json.dumps({
                         'id': id_,
-                        'read': f'{self._path}/{id_}'
+                        'read': f'/blog/api/post/{id_}'
                     })
                 )
             )
