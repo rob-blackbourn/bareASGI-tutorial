@@ -144,7 +144,8 @@ class BlogRestController:
             entries = await self._repository.read_between(
                 start_date,
                 end_date,
-                ['title', 'description'],
+                ['title', 'description', 'created'],
+                'created',
                 limit
             )
 
