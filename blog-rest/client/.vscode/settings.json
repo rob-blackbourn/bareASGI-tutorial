@@ -1,0 +1,8 @@
+{
+    "editor.detectIndentation": false,
+    "editor.tabSize": 2,
+    "editor.formatOnSave": false,
+    "editor.formatOnType": false,
+    "javascript.validate.enable": false,
+    "javascript.format.enable": false
+}

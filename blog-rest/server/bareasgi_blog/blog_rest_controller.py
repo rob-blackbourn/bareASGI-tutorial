@@ -57,12 +57,15 @@ class BlogRestController:
         :param app: The ASGI application
         :type app: Application
         """
-        app.http_router.add({'POST'}, f'{self._path}', self._create)
+        app.http_router.add({'POST', 'OPTIONS'}, f'{self._path}', self._create)
         app.http_router.add({'GET'}, f'{self._path}/{{id:int}}', self._read)
         app.http_router.add({'GET'}, f'{self._path}', self._read_between)
-        app.http_router.add({'PUT'}, f'{self._path}/{{id:int}}', self._update)
+        app.http_router.add({'POST', 'OPTIONS'}, f'{self._path}/{{id:int}}', self._update)
         app.http_router.add(
-            {'DELETE'}, f'{self._path}/{{id:int}}', self._delete)
+            {'DELETE', 'OPTIONS'},
+            f'{self._path}/{{id:int}}',
+            self._delete
+        )
 
     async def _create(
             self,
@@ -72,11 +75,12 @@ class BlogRestController:
             content: Content
     ) -> HttpResponse:
         try:
-            if not _is_form_data(scope):
-                raise RuntimeError("Invalid content type")
+            media_type, *_ = header.content_type(scope['headers'])
+            if media_type != b'application/json':
+                raise RuntimeError("Invalid media type")
 
             text = await text_reader(content)
-            args = dict(parse_qsl(text))
+            args = json.loads(text)
 
             id_ = await self._repository.create(**args)
 
@@ -165,11 +169,12 @@ class BlogRestController:
             content: Content
     ) -> HttpResponse:
         try:
-            if not _is_form_data(scope):
-                raise RuntimeError("Invalid content type")
+            media_type, *_ = header.content_type(scope['headers'])
+            if media_type != b'application/json':
+                raise RuntimeError("Invalid media type")
 
             text = await text_reader(content)
-            args = dict(parse_qsl(text))
+            args = json.loads(text)
 
             id_ = matches.get('id')
             if not await self._repository.update(id_, **args):

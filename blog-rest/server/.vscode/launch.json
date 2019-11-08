@@ -1,12 +1,13 @@
 {
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "name": "Start Server",
-      "type": "python",
-      "request": "launch",
-      "program": "${workspaceFolder}/bareasgi_blog/server.py",
-      "console": "integratedTerminal"
-    }
-  ]
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Start Server",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/bareasgi_blog/server.py",
+            "console": "integratedTerminal",
+            "justMyCode": false
+        }
+    ]
 }

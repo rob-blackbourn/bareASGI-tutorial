@@ -11,6 +11,7 @@ from bareasgi import (
     Message
 )
 from bareasgi_cors import CORSMiddleware
+from bareasgi_cors.cors_provider import ALL_METHODS
 
 from .blog_repository import BlogRepository
 from .blog_rest_controller import BlogRestController
@@ -44,7 +45,9 @@ async def _on_shutdown(
 
 def create_application(path_prefix: str) -> Application:
     """Create the application"""
-    cors_middleware = CORSMiddleware()
+    cors_middleware = CORSMiddleware(
+        # allow_methods=ALL_METHODS
+    )
     app = Application(info={}, middlewares=[cors_middleware])
     app.startup_handlers.append(partial(_on_startup, app, path_prefix))
     app.shutdown_handlers.append(_on_shutdown)
