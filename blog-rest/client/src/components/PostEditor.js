@@ -80,13 +80,13 @@ const PostEditor = props => {
 
 PostEditor.propTypes = {
   classes: PropTypes.object.isRequired,
-  title: PropTypes.string.string,
+  title: PropTypes.string,
   onTitleChange: PropTypes.func.isRequired,
-  description: PropTypes.string.string,
+  description: PropTypes.string,
   onDescriptionChange: PropTypes.func.isRequired,
-  content: PropTypes.string.string,
+  content: PropTypes.string,
   onContentChange: PropTypes.func.isRequired,
-  submitContent: PropTypes.object.isRequired,
+  submitContent: PropTypes.any.isRequired,
   onSubmit: PropTypes.func.isRequired
 }
 
