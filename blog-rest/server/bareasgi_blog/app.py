@@ -13,7 +13,7 @@ from bareasgi import (
 from bareasgi_cors import CORSMiddleware
 
 from .blog_repository import BlogRepository
-from .blog_rest_controller import BlogRestController
+from .blog_controller import BlogRestController
 
 async def _on_startup(
         app: Application,

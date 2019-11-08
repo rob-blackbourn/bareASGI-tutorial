@@ -58,7 +58,7 @@ LIMIT ?
 We implement the controller as a class.
 
 The source code for the controller can be found
-[here](bareasgi_glog/blog_rest_controller.py).
+[here](bareasgi_glog/blog_controller.py).
 
 The class is initialised with the repository.
 
@@ -110,7 +110,12 @@ After creating the routes we implement a method to register them.
 
 ## The Application
 
-The application must create the repository and the controller. As the repository
+The application must create the repository and the controller.
+
+The source code for the application can be found
+[here](bareasgi_glog/app.py).
+
+As the repository
 will acquire the event loop of the running context we use a startup handler.
 
 ```python
