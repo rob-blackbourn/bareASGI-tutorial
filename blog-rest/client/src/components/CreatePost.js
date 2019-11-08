@@ -2,14 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
 import PostEditor from './PostEditor'
+import SimpleDialog from './SimpleDialog'
 import { API_PATH } from '../config'
 
 const styles = theme => ({
@@ -70,19 +64,12 @@ class CreatePost extends React.Component {
 
   renderDialog = () => {
     return (
-      <Dialog onClose={() => this.handleDismissDialog()} open={this.state.error !== null}>
-        <DialogTitle>Error</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            {this.state.error}
-          </DialogContentText>
-          <DialogActions>
-            <Button onClick={() => this.handleDismissDialog()} color='primary'>
-              Dismiss
-            </Button>
-          </DialogActions>
-        </DialogContent>
-      </Dialog>
+      <SimpleDialog
+        onClose={() => this.handleDismissDialog()}
+        open={this.state.error !== null}
+        dialogTitle='Error'
+        dialogContent={this.state.error}
+      />
     )
   }
 

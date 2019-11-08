@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -10,13 +9,8 @@ import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
 import PostIcon from '@material-ui/icons/PostAdd'
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
 import LinkRef from './LinkRef'
+import SimpleDialog from './SimpleDialog'
 import { API_PATH } from '../config'
 
 const styles = theme => ({
@@ -39,11 +33,11 @@ class Blog extends React.Component {
         if (request.ok) {
           this.fetchPosts()
         } else {
-          this.setState({ error: 'Delete failed' })
+          this.setState({ error: 'Unable to delete post' })
         }
       })
-      .catch(error => {
-        this.setState({ error: error })
+      .catch(() => {
+        this.setState({ error: 'Unable to delete post' })
       })
   }
 
@@ -75,19 +69,12 @@ class Blog extends React.Component {
 
   renderDialog = () => {
     return (
-      <Dialog onClose={() => this.handleDismissDialog()} open={this.state.error !== null}>
-        <DialogTitle>Error</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            {this.state.error}
-          </DialogContentText>
-          <DialogActions>
-            <Button onClick={() => this.handleDismissDialog()} color='primary'>
-              Dismiss
-            </Button>
-          </DialogActions>
-        </DialogContent>
-      </Dialog>
+      <SimpleDialog
+        onClose={() => this.handleDismissDialog()}
+        open={this.state.error !== null}
+        dialogTitle='Error'
+        dialogContent={this.state.error}
+      />
     )
   }
 
