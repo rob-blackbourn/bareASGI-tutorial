@@ -73,7 +73,7 @@ const PostEditor = props => {
         </Grid>
       </Grid>
 
-      <Link to='/blog/ui/index'>Home</Link>
+      <Link to='/index'>Home</Link>
     </div>
   )
 }

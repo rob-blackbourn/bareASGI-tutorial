@@ -100,10 +100,10 @@ class Blog extends React.Component {
 
         <List>
           {posts.map(post => (
-            <ListItem key={post.id} button component={props => <Link to={`/blog/ui/read/${post.id}`} {...props} />}>
+            <ListItem key={post.id} button component={props => <Link to={`/read/${post.id}`} {...props} />}>
               <ListItemText primary={post.title} secondary={post.description} />
               <ListItemSecondaryAction>
-                <IconButton edge='end' aria-label='edit' component={props => <Link to={`/blog/ui/update/${post.id}`} {...props} />}>
+                <IconButton edge='end' aria-label='edit' component={props => <Link to={`/update/${post.id}`} {...props} />}>
                   <EditIcon />
                 </IconButton>
                 <IconButton edge='end' aria-label='delete' onClick={() => this.handleDelete(post.id)}>
@@ -114,7 +114,7 @@ class Blog extends React.Component {
           ))}
         </List>
 
-        <Link to='/blog/ui/create'>Create a new post</Link>
+        <Link to='/create'>Create a new post</Link>
 
       </div>
     )

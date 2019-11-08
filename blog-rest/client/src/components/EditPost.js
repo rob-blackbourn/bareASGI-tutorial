@@ -84,7 +84,7 @@ class EditPost extends React.Component {
   }
 
   renderRedirect = () => {
-    return <Redirect to='/blog/ui/index' />
+    return <Redirect to='/index' />
   }
 
   renderDialog = () => {

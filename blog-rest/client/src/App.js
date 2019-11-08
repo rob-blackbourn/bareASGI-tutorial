@@ -9,15 +9,15 @@ import PostViewer from './components/PostViewer'
 import Blog from './components/Blog'
 
 const App = () => (
-  <Router>
+  <Router basename='/blog/ui'>
     <CssBaseline />
     <Container maxWidth='sm'>
       <Switch>
-        <Route path='/blog/ui/create' component={CreatePost} />
-        <Route path='/blog/ui/read/:id' component={PostViewer} />
-        <Route path='/blog/ui/update/:id' component={EditPost} />
-        <Route path='/blog/ui/index' component={Blog} />
-        <Route path='/blog/ui/' component={Blog} />
+        <Route path='/create' component={CreatePost} />
+        <Route path='/read/:id' component={PostViewer} />
+        <Route path='/update/:id' component={EditPost} />
+        <Route path='/index' component={Blog} />
+        <Route path='/' component={Blog} />
       </Switch>
     </Container>
   </Router>

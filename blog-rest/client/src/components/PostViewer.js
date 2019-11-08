@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import { API_PATH } from '../config'
 
 const styles = theme => ({
   root: {
@@ -19,7 +20,7 @@ class PostViewer extends React.Component {
 
   componentDidMount () {
     const { match } = this.props
-    const url = `http://localhost:9501/blog/api/blog_entry/${match.params.id}`
+    const url = `${API_PATH}/${match.params.id}`
     fetch(url)
       .then(response => {
         if (response.ok) {
