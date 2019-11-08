@@ -13,7 +13,9 @@ import PostEditor from './PostEditor'
 import { API_PATH } from '../config'
 
 const styles = theme => ({
-  root: {}
+  root: {
+    margin: theme.spacing(2)
+  }
 })
 
 class EditPost extends React.Component {
@@ -110,11 +112,8 @@ class EditPost extends React.Component {
     const { post } = this.state
 
     return (
-      <div>
-        <Typography variant='h2'>Update Post</Typography>
-
+      <div className={classes.root}>
         <PostEditor
-          className={classes.root}
           title={post.title}
           onTitleChange={value => this.handleChange(post, 'title', value)}
           description={post.description}

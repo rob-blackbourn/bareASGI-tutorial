@@ -1,6 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
+import IconButton from '@material-ui/core/IconButton'
+import HomeIcon from '@material-ui/icons/Home'
+import LinkRef from './LinkRef'
+import Grid from '@material-ui/core/Grid'
 import { API_PATH } from '../config'
 
 const styles = theme => ({
@@ -43,11 +48,23 @@ class PostViewer extends React.Component {
     const { post } = this.state
 
     return (
-      <div className={classes.root}>
-        <h2>{post.title}</h2>
-        <h4>{post.description}</h4>
-        <p>{post.content}</p>
-      </div>
+      <Grid container className={classes.root}>
+        <Grid item xs={12}>
+          <Typography variant='h2' gutterBottom>{post.title}</Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant='h4' gutterBottom>{post.description}</Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant='body1'>{post.content}</Typography>
+        </Grid>
+        <Grid item xs={10} />
+        <Grid item xs={2}>
+          <IconButton edge='end' aria-label='edit' component={LinkRef} to='/index'>
+            <HomeIcon />
+          </IconButton>
+        </Grid>
+      </Grid>
     )
   }
 }

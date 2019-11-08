@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import { Link } from 'react-router-dom'
 import Typography from '@material-ui/core/Typography'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -10,12 +9,14 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
+import PostIcon from '@material-ui/icons/PostAdd'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
+import LinkRef from './LinkRef'
 import { API_PATH } from '../config'
 
 const styles = theme => ({
@@ -96,14 +97,12 @@ class Blog extends React.Component {
 
     return (
       <div className={classes.root}>
-        <Typography variant='h2'>Blog</Typography>
-
         <List>
           {posts.map(post => (
-            <ListItem key={post.id} button component={props => <Link to={`/read/${post.id}`} {...props} />}>
+            <ListItem key={post.id} button component={LinkRef} to={`/read/${post.id}`}>
               <ListItemText primary={post.title} secondary={post.description} />
               <ListItemSecondaryAction>
-                <IconButton edge='end' aria-label='edit' component={props => <Link to={`/update/${post.id}`} {...props} />}>
+                <IconButton edge='end' aria-label='edit' component={LinkRef} to={`/update/${post.id}`}>
                   <EditIcon />
                 </IconButton>
                 <IconButton edge='end' aria-label='delete' onClick={() => this.handleDelete(post.id)}>
@@ -114,7 +113,9 @@ class Blog extends React.Component {
           ))}
         </List>
 
-        <Link to='/create'>Create a new post</Link>
+        <IconButton edge='end' aria-label='edit' component={LinkRef} to='/create'>
+          <PostIcon />
+        </IconButton>
 
       </div>
     )

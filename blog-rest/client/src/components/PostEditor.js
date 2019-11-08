@@ -1,10 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import { Link } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
+import SaveIcon from '@material-ui/icons/Save'
+import HomeIcon from '@material-ui/icons/Home'
+import LinkRef from './LinkRef'
 
 const styles = theme => ({
   root: {},
@@ -31,8 +33,7 @@ const PostEditor = props => {
     onDescriptionChange,
     content,
     onContentChange,
-    onSubmit,
-    submitContent
+    onSubmit
   } = props
 
   return (
@@ -66,14 +67,18 @@ const PostEditor = props => {
             rows={20}
           />
         </Grid>
-        <Grid item xs={12}>
-          <Button className={classes.submitButton} onClick={onSubmit}>
-            {submitContent}
-          </Button>
+        <Grid item xs={1}>
+          <IconButton edge='end' aria-label='edit' component={LinkRef} to='/index'>
+            <HomeIcon />
+          </IconButton>
+        </Grid>
+        <Grid item xs={10} />
+        <Grid item xs={1}>
+          <IconButton edge='end' aria-label='delete' onClick={onSubmit}>
+            <SaveIcon />
+          </IconButton>
         </Grid>
       </Grid>
-
-      <Link to='/index'>Home</Link>
     </div>
   )
 }
@@ -86,7 +91,6 @@ PostEditor.propTypes = {
   onDescriptionChange: PropTypes.func.isRequired,
   content: PropTypes.string,
   onContentChange: PropTypes.func.isRequired,
-  submitContent: PropTypes.any.isRequired,
   onSubmit: PropTypes.func.isRequired
 }
 

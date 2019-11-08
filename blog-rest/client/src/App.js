@@ -3,6 +3,7 @@ import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Container from '@material-ui/core/Container'
+import Typography from '@material-ui/core/Typography'
 import EditPost from './components/EditPost'
 import CreatePost from './components/CreatePost'
 import PostViewer from './components/PostViewer'
@@ -12,6 +13,8 @@ const App = () => (
   <Router basename='/blog/ui'>
     <CssBaseline />
     <Container maxWidth='sm'>
+      <Typography variant='h2' gutterBottom>Blog</Typography>
+
       <Switch>
         <Route path='/create' component={CreatePost} />
         <Route path='/read/:id' component={PostViewer} />
