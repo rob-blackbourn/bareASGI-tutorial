@@ -41,6 +41,18 @@ the last example all headers of name `cookie` are returned in a list.
 As you can see, no attempt is made to process the headers into dictionaries or
 strings.
 
+## Header Helpers
+
+There are a number of helper methods written for the more common headers.
+
+For example to retrieve the `content-type` the following function can be used.
+
+```python
+>>> import bareutils.header as header
+>>> header.content_type([(b'content-type', b'text/html; charset=UTF-8')])
+(b'text/html', {b'charset': b'UTF-8'})
+```
+
 ## Cookies
 
 The source code for the following example can be found
