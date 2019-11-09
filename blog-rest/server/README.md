@@ -84,7 +84,7 @@ LIMIT ?
 I have chosen to implement the controller as a class.
 
 The source code for the controller can be found
-[here](bareasgi_glog/blog_controller.py).
+[here](bareasgi_blog/blog_controller.py).
 
 The class is initialised with the repository.
 
@@ -166,7 +166,7 @@ the browser to perform CORS detection.
 The application must create the repository and the controller.
 
 The source code for the application can be found
-[here](bareasgi_glog/app.py).
+[here](bareasgi_blog/app.py).
 
 As the repository
 will acquire the event loop of the running context we use a startup handler.
@@ -215,7 +215,7 @@ shutdown handler.
 The last thing to do is to start the web server.
 
 The source code for the server can be found
-[here](bareasgi_glog/server.py).
+[here](bareasgi_blog/server.py).
 
 Much of this code has been discussed in previous tutorials, however a new
 feature if the use of a config file. The config  file is written in yaml, and
