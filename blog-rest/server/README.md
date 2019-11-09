@@ -2,15 +2,41 @@
 
 Here we will write a REST server for a simple blogging application.
 
+It will respond to the following end points:
+
+* POST /blog/api/post - create a blog post
+* GET /blog/api/post/{id:int} - read a blog post
+* GET /blog/api/post - read the latest blog posts
+* POST /blog/api/post/{id:int} - update a blog post
+* DELETE /blog/api/post/{id:int} - delete a blog post
+
+## Usage
+
+This project uses poetry.
+
+First install the dependencies.
+
+```bash
+$ poetry install
+```
+
+Then run the server.
+
+```bash
+$ poetry run start-server
+```
+
 ## The Repository
 
 First we will create a simple repository using sqlite as the backend storage
-with the asynchronous `aiosqlite` package.
+with the asynchronous 
+[`aiosqlite`](https://github.com/jreese/aiosqlite)
+package.
 
 The source code for the repository can be found
 [here](bareasgi_glog/blog_repository.py).
 
-We're not too interested in the details of the repository, but there are a few
+The implementation of the repository isn't relevant here , but there are a few
 points to note.
 
 The repository is implemented as a class which receives the connection at
@@ -55,7 +81,7 @@ LIMIT ?
 
 ## The controller
 
-We implement the controller as a class.
+I have chosen to implement the controller as a class.
 
 The source code for the controller can be found
 [here](bareasgi_glog/blog_controller.py).
@@ -63,15 +89,19 @@ The source code for the controller can be found
 The class is initialised with the repository.
 
 ```python
-class BlogRestController:
-    """BlogRestController"""
+class BlogController:
+    """BlogController"""
 
     def __init__(self, repository: BlogRepository) -> None:
         self._repository = repository
 ```
 
-Each of the route handlers are then implemented. Here is the handler which
-creates a blog.
+### The Handlers
+
+Each of the route handlers are then implemented.
+
+Here is the handler which creates a blog when it receives a `POST` on
+`/blog/api/post` with the body containing the post as JSON.
 
 ```python
     async def _create(self, scope, info, matches, content):
@@ -99,6 +129,26 @@ creates a blog.
             return 500
 ```
 
+The JSON payload would look like this.
+
+```json
+{
+    "title": "My First Post",
+    "description": "A short post",
+    "contents": "More next week"
+}
+```
+
+The handler wraps it's code in a try-except block, and returns a 500 on any
+exception.
+
+It first checks the  content type to ensure it is being sent JSON. Then it
+reads the body and parses the text. Then it calls the `create` method of the
+repository and is passed the id of the post that was created. Finally it returns
+a 200 response with a HATEOAS style payload.
+
+### The Routes
+
 After creating the routes we implement a method to register them.
 
 ```python
@@ -107,6 +157,9 @@ After creating the routes we implement a method to register them.
         app.http_router.add({'GET'}, '/blog/api/post/{id:int}', self._read)
         ...
 ```
+
+Note that the `POST` and `DELETE` routes contain an `OPTIONS` method to allow
+the browser to perform CORS detection.
 
 ## The Application
 
@@ -137,8 +190,10 @@ async def _on_shutdown(scope, info, request):
     await conn.close()
 
 def create_application() -> Application:
+    # Use the CORS middleware
     cors_middleware = CORSMiddleware()
     app = Application(info={}, middlewares=[cors_middleware])
+    # Add the startup and shutdown handlers
     app.startup_handlers.append(partial(_on_startup, app))
     app.shutdown_handlers.append(_on_shutdown)
     return app
@@ -146,8 +201,22 @@ def create_application() -> Application:
 
 There are a couple of interesting things to note here.
 
+The server expects to serve data to clients from a different web server, so it
+uses the CORS middleware.
+
 The startup handler is added using a `partial` in order to pass in the 
 application instance.
 
 The `info` parameter is used to make the sqlite connection available to the
 shutdown handler.
+
+## The Server
+
+The last thing to do is to start the web server.
+
+The source code for the server can be found
+[here](bareasgi_glog/server.py).
+
+Much of this code has been discussed in previous tutorials, however a new
+feature if the use of a config file. The config  file is written in yaml, and
+it holds application and logging configuration.

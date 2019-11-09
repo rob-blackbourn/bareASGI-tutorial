@@ -4,6 +4,9 @@ version = "0.1.0"
 description = ""
 authors = ["Rob Blackbourn <rob.blackbourn@gmail.com>"]
 
+[tool.poetry.scripts]
+start-server = "bareasgi_blog.server:start_server"
+
 [tool.poetry.dependencies]
 python = "^3.7"
 aiosqlite = "^0.10.0"

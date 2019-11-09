@@ -13,7 +13,8 @@ from bareasgi import (
 from bareasgi_cors import CORSMiddleware
 
 from .blog_repository import BlogRepository
-from .blog_controller import BlogRestController
+from .blog_controller import BlogController
+
 
 async def _on_startup(
         app: Application,
@@ -23,15 +24,16 @@ async def _on_startup(
 ) -> None:
     conn = await aiosqlite.connect(
         ':memory:',
-        detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES
+        detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES
     )
 
     blog_repository = BlogRepository(conn)
     await blog_repository.initialise()
 
-    blog_controller = BlogRestController(blog_repository)
+    blog_controller = BlogController(blog_repository)
     blog_controller.add_routes(app)
     info['aiosqlite_conn'] = conn
+
 
 async def _on_shutdown(
         _scope: Scope,
@@ -40,6 +42,7 @@ async def _on_shutdown(
 ) -> None:
     conn: aiosqlite.Connection = info['aiosqlite_conn']
     await conn.close()
+
 
 def create_application() -> Application:
     """Create the application"""

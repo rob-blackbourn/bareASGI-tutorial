@@ -44,8 +44,8 @@ def _parse_int(value: Optional[bytes], default: int) -> int:
     return default if not value else int(value[0])
 
 
-class BlogRestController:
-    """BlogRestController"""
+class BlogController:
+    """BlogController"""
 
     def __init__(self, repository: BlogRepository) -> None:
         self._repository = repository

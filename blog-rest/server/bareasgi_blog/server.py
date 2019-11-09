@@ -14,13 +14,16 @@ from bareasgi import Application
 
 from bareasgi_blog.app import create_application
 
+
 def _load_config(filename: str) -> Dict[str, Any]:
     with open(filename, 'rt') as file_ptr:
         return yaml.load(file_ptr, Loader=yaml.FullLoader)
 
+
 def _initialise_logging(config: Dict[str, Any]) -> None:
     if 'logging' in config:
         logging.config.dictConfig(config['logging'])
+
 
 def start_hypercorn(app: Application, app_config: Dict[str, Any]) -> None:
     loop = asyncio.new_event_loop()
@@ -38,9 +41,6 @@ def start_hypercorn(app: Application, app_config: Dict[str, Any]) -> None:
 
     config = Config()
     config.bind = [f"{host}:{port}"]
-    config.loglevel = 'debug'
-    # config.certfile = os.path.expanduser(f"~/.keys/server.crt") if USE_SSL else None
-    # config.keyfile = os.path.expanduser(f"~/.keys/server.key") if USE_SSL else None
 
     loop.run_until_complete(
         serve(
@@ -50,9 +50,11 @@ def start_hypercorn(app: Application, app_config: Dict[str, Any]) -> None:
         )
     )
 
+
 def start_server() -> None:
     """Start the server"""
-    config = _load_config(pkg_resources.resource_filename(__name__, "config.yml"))
+    config = _load_config(
+        pkg_resources.resource_filename(__name__, "config.yml"))
 
     app_config = config['app']
     _initialise_logging(config)
