@@ -34,7 +34,7 @@ with the asynchronous
 package.
 
 The source code for the repository can be found
-[here](bareasgi_glog/blog_repository.py).
+[here](bareasgi_blog/blog_repository.py).
 
 The implementation of the repository isn't relevant here , but there are a few
 points to note.
