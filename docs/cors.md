@@ -92,3 +92,8 @@ fetch('http://127.0.0.1:9010/info', {
 
 You can check that it's working by commenting out the CORS middleware in the
 REST server. The browser will reject the fetch requests.
+
+## What next?
+
+Either go back to the [table of contents](table-of-contents.md) or go
+to [Diversion: A Simple REST Blog](../blog-rest/README.md).

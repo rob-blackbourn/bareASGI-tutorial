@@ -147,5 +147,5 @@ into a dict. Note that multiple cookies of the same name may be passed.
 
 ## What next?
 
-Either go back to the [table of contents](../README.md#table-of-contents) or go
+Either go back to the [table of contents](table-of-contents.md) or go
 to the [cors](cors.md) tutorial.

@@ -79,5 +79,5 @@ The full source code for the example can be found
 
 ## What next?
 
-Either go back to the [table of contents](../README.md#table-of-contents) or go
+Either go back to the [table of contents](table-of-contents.md) or go
 to the [middleware](middleware.md) tutorial.
