@@ -18,6 +18,7 @@
     "python.testing.unittestEnabled": false,
     "python.testing.nosetestsEnabled": false,
     "cSpell.words": [
+      "Templating",
       "asctime",
       "lastrowid",
       "levelname",

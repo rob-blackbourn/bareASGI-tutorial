@@ -14,3 +14,4 @@ A tutorial for the bareASGI web framework.
 * [Headers (including cookies)](headers.md)
 * [Cross-Origin Resource Sharing (CORS)](cors.md)
 * [Diversion: A Simple REST Blog](../blog-rest/README.md)
+* [Jinja2 Templating](jinja2.md)
