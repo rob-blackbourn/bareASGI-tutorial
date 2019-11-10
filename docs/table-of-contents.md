@@ -15,3 +15,4 @@ A tutorial for the bareASGI web framework.
 * [Cross-Origin Resource Sharing (CORS)](cors.md)
 * [Diversion: A Simple REST Blog](../blog-rest/README.md)
 * [Jinja2 Templating](jinja2.md)
+* [Serving Static Files](static-files.md)
