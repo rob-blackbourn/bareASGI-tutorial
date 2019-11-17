@@ -7,8 +7,8 @@ authors = ["Rob Blackbourn <rob.blackbourn@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.7"
 aiosqlite = "^0.10.0"
-bareASGI = "^3.3"
-bareasgi-jinja2 = "^3.0"
+bareASGI = "^3.4"
+bareasgi-jinja2 = "^3.1"
 hypercorn = "^0.9.0"
 PyYaml = "^5.1"
 

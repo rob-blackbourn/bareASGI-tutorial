@@ -1,4 +1,8 @@
 {
+  "editor.rulers": [
+    80,
+    120
+  ],
   "python.pythonPath": ".venv/bin/python",
   "python.linting.pylintEnabled": true,
   "python.linting.pylintUseMinimalCheckers": false,
@@ -16,9 +20,12 @@
   "python.testing.unittestEnabled": false,
   "python.testing.nosetestsEnabled": false,
   "cSpell.words": [
+    "aiosqlite",
     "asctime",
     "lastrowid",
     "levelname",
-    "rowid"
+    "rowid",
+    "sqlite",
+    "templating"
   ]
 }
