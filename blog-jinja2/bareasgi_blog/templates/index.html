@@ -1,27 +1,24 @@
 {% extends "base.html" %}
 
-{% set title = "Blog" %}
-
 {% block content %}
-<div>
+<div class="container">
     <h1>Blog</h1>
 
-    {% if blog_entries %}
-    <h1>Read a blog</h1>
+    {% if posts %}
 
     <dl>
-        {% for blog_entry in blog_entries %}
+        {% for post in posts %}
 
         <dt>
-            {{ blog_entry['title']}}
+            {{ post['title']}}
         </dt>
         <dd>
-            {{ blog_entry['description']}}
+            {{ post['description']}}
 
             [
-            <a href="/read.html?id={{ blog_entry['id'] }}">read</a>,
-            <a href="/update.html?id={{ blog_entry['id'] }}">edit</a>,
-            <a href="/delete.html?id={{ blog_entry['id'] }}">delete</a>
+            <a href="/read.html?id={{ post['id'] }}">read</a>,
+            <a href="/update.html?id={{ post['id'] }}">edit</a>,
+            <a href="/delete.html?id={{ post['id'] }}">delete</a>
             ]
 
         </dt>

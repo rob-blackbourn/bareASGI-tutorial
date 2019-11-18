@@ -94,7 +94,10 @@ class BlogController:
             False,
             10
         )
-        return {'blog_entries': latest_ten_entries}
+        return {
+            'title': 'blog',
+            'posts': latest_ten_entries
+        }
 
     @bareasgi_jinja2.template('edit.html')
     async def _create(

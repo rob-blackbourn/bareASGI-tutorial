@@ -3,7 +3,7 @@
 {% set title = "New blog entry" %}
 
 {% block content %}
-<div>
+<div class="container">
     <h1>New Blog Entry</h1>
 
     <form action="{{ action }}" method="post">
@@ -12,17 +12,23 @@
         <input type="hidden" name="id" value="{{ blog_entry['id'] }}">
         {% endif %}
 
-        Title:<br>
-        <input type="text" name="title" value="{{ blog_entry['title'] }}"><br>
+        <div class="form-group">
+            <label for"titleInput">Title</label>
+            <input type="text" class="form-control" id="titleInput" name="title" value="{{ blog_entry['title'] }}">
+        </div>
 
-        Description:<br>
-        <textarea name="description" rows="3" cols="50">{{ blog_entry['description'] }}</textarea><br>
+        <div class="form-group">
+            <label for"descriptionInput">Description</label>
+            <textarea class="form-control" id="descriptionInput" name="description" rows="3">{{ blog_entry['description'] }}</textarea>
+        </div>
 
-        Content:<br>
-        <textarea name="content" rows="40" cols="50">{{ blog_entry['content'] }}</textarea><br>
+        <div class="form-group">
+            <label for"contentInput">Content</label>
+            <textarea class="form-control" id="contentInput" name="content" rows="10">{{ blog_entry['content'] }}</textarea>
+        </div>
 
-        <br>
-        <input type="submit" value="Save">
+        <button type="submit" class="btn btn-primary">Save</button>
+
     </form>
 
 </div>
