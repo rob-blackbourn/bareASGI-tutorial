@@ -18,3 +18,4 @@ A tutorial for the bareASGI web framework.
 - [Diversion: A Simple jinja2 Blog](../blog-jinja2/README.md)
 - [Serving Static Files](static-files.md)
 - [Server Sent Events](server-sent-events.md)
+- [Streaming fetch](streaming-fetch.md)
