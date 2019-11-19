@@ -17,3 +17,8 @@ app = Application(middlewares=[compression_middleware])
 
 The middleware will then be applied according to the headers of the client
 that made the request.
+
+## What next?
+
+Either go back to the [table of contents](table-of-contents.md) or go
+to the [controller classes](controller-classes.md) tutorial.

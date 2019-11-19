@@ -20,3 +20,4 @@ A tutorial for the bareASGI web framework.
 - [Server Sent Events](server-sent-events.md)
 - [Streaming fetch](streaming-fetch.md)
 - [Compression](compression.md)
+- [Controller Classes](controller-classes.md)
