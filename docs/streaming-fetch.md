@@ -165,3 +165,8 @@ function makeWriteableEventStream(eventTarget) {
 
 This is the end of the chain and it uses the built in `WriteableStream` to turn
 the incoming JSON into events.
+
+## What next?
+
+Either go back to the [table of contents](table-of-contents.md) or go
+to the [compression](compression.md) tutorial.

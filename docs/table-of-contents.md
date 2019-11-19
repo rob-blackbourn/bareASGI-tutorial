@@ -19,3 +19,4 @@ A tutorial for the bareASGI web framework.
 - [Serving Static Files](static-files.md)
 - [Server Sent Events](server-sent-events.md)
 - [Streaming fetch](streaming-fetch.md)
+- [Compression](compression.md)
