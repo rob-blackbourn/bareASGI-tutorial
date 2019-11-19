@@ -178,7 +178,7 @@ class BlogController:
             await self._repository.update(id_, **args)
             href = f'/read.html?id={id_}'
 
-            return 303, [(b'Location', href.encode())]
+            return 303, [(b'location', href.encode())]
         except:  # pylint: disable=bare-except
             return 500
 

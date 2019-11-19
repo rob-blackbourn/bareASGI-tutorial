@@ -467,6 +467,18 @@ request handler returns a 303 redirect with the read location of the post.
 
 The route handlers can now be added to the application.
 
+```python
+        app.http_router.add(
+            {'GET'},
+            '/create.html',
+            self.create
+        )
+        app.http_router.add(
+            {'POST'},
+            '/create.html',
+            self.save_create
+        )
+```
 
 
 The update handler must first load the selected entry.
@@ -483,8 +495,29 @@ The update handler must first load the selected entry.
         }
 ```
 
-Note how it expected the `id` to be found in the query string of the url. In
-the template file we 
+Note how it finds the `id` to be found in the query string of the url. In
+the template file we made the link `<a href=/update.html?id={{id}}>`.
+
+Finally we need to save the update.
 
 ```python
+    async def _save_update(self, scope, info, matches, content):
+        try:
+            text = await text_reader(content)
+            args = dict(parse_qsl(text))
+            id_ = int(args.pop('id'))
+
+            await self._repository.update(id_, **args)
+            href = f'/read.html?id={id_}'
+
+            return 303, [(b'location', href.encode())]
+        except:  # pylint: disable=bare-except
+            return 500
 ```
+
+## Wrapping up
+
+Take a look at [`app.py`](bareasgi_blog/app.py) to see how the controller gets
+wired in to the application
+and [`server.py`](bareasgi_blog/server.py)
+to see how the application is launched.
