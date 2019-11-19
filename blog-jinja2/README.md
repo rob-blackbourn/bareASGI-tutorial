@@ -72,7 +72,7 @@ def load_config(filename: str) -> Dict[str, Any]:
         return yaml.load(file_ptr, Loader=yaml.FullLoader)
 ```
 
-In the config file there is an `app` section where the `host` and `port` is set.
+In the config file there is an `app` section where the `host` and `port` are set.
 If this was an https server we could put the certificate and key file locations
 here.
 
@@ -89,8 +89,9 @@ We will need a repository to store the blog posts. A simple repository is
 implemented using aiosqlite as the storage engine 
 [here](bareasgi_blog/blog_repository.py).
 
-We will not discuss the implementation here, but it should be noted that all
-calls are asynchronous. For example the method to create a blog is as follows:
+The implementation is not relevant for this tutorial, but it should be noted
+that all calls are asynchronous. For example the method to create a blog is as
+follows:
 
 ```python
     async def create(self, **kwargs) -> int:
@@ -125,8 +126,9 @@ post_id = await repository.create(**{
 })
 ```
 
-When python makes an `await` call it has the opportunity to give up control.
-This keeps our web server responsive to other incoming requests.
+Whenever an `await` call is made the interpreter has the opportunity to give up
+control to another part of code that has been waiting. This keeps our web server
+responsive to other incoming requests.
 
 The repository takes the `aiosqlite` connection as an input argument:
 
@@ -201,10 +203,10 @@ bareasgi_jinja2.add_jinja2(app, env)
 ```
 
 Note how we first create a jinja2 environment. To create the environment we need
-to specify where our templates will be. In this case they will be in a folder
-called `templates` at the save level as the above file. We also setup auto
-escaping for `.html` and `.xml` files to stop a malicious user injecting html.
-Finally we enable asynchronous support.
+to specify where our templates can be found. In this case they will be in a
+folder called `templates` at the same level as the above file. We also setup
+automatic escaping for `.html` and `.xml` files to stop a malicious user
+injecting html. Finally we enable asynchronous support.
 
 After creating the environment we simply add it to the bareASGI application with
 `bareasgi_jinja2.add_jinja2`.
@@ -232,7 +234,8 @@ Here is the basic layout we want.
 </html>
 ```
 
-We have two blocks where we can add content for the header and the body.
+The `{% block %} .. {% endblock %}` are where we can add content for the header
+and the body.
 
 Rather than leave this as an embarrassingly unstyled page we can add a styling
 framework. Here we use [bootstrap](https://getbootstrap.com/).
@@ -269,7 +272,7 @@ framework. Here we use [bootstrap](https://getbootstrap.com/).
 ```
 
 The jinja2 template will be passed a dictionary of the data to be displayed.
-Our *index* page will be passed will be passes the `title` for the header, and
+Our *index* page will be passed the `title` for the header, and
 a list of the ten latest `posts`.
 
 The template will look like this:
@@ -309,13 +312,14 @@ The template will look like this:
 {% endblock %}
 ```
 
-We can see this template extends from the base template which we defined
+We can see this template `extends` from the base template which we defined
 earlier.
 
 Then we provide the `content` block. The `<div class="container">` applies the
 basic styling for the page. Then we check if the `posts` variable passed into
-the template has any values. If it does we iterate over each post to create
-a list, including links for viewing, editing and deleting.
+the template has any values with `{% if posts %}`. If it does we iterate over
+each post with `{% for post in posts %}` to create a list, including links for
+viewing, editing and deleting.
 
 Finally we provide a link to create a new post.
 
@@ -323,3 +327,40 @@ The other templates work in a similar manner.
 
 ## Controller
 
+We create a controller class to define the route handlers. The code for the
+controller can be found [here](bareasgi_blog/blog_controller.py).
+
+The class takes the repository at initialisation.
+
+```python
+class BlogController:
+
+    def __init__(self, repository: BlogRepository) -> None:
+        self._repository = repository
+    
+    ...
+```
+
+The route handlers take the same arguments as standard route handlers, by they
+are decorated with `@bareasgi_jinja2.template("template.html")` and they return
+a dictionary of variables for the template to use.
+
+Here is the index page route handler:
+
+```python
+    @bareasgi_jinja2.template('index.html')
+    async def index(self, scope, info, matches, content):
+        last_ten_posts = await self._repository.read_many(
+            ['title', 'description'],
+            'created',
+            False,
+            10
+        )
+        return {
+            'title': 'blog',
+            'posts': last_ten_posts
+        }
+```
+
+Note how the keys of the returned dictionary match the variable names in the
+template.
