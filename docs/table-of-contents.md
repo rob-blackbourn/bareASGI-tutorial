@@ -21,3 +21,4 @@ A tutorial for the bareASGI web framework.
 - [Streaming fetch](streaming-fetch.md)
 - [Compression](compression.md)
 - [Controller Classes](controller-classes.md)
+- [Exceptions](exceptions.md)
