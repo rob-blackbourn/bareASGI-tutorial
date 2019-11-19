@@ -121,7 +121,7 @@
       "console": "integratedTerminal"
     },
     {
-      "name": "Cookies (no types",
+      "name": "Cookies (no types)",
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/examples/cookies_nt.py",
@@ -141,5 +141,12 @@
       "program": "${workspaceFolder}/examples/cors_web_server.py",
       "console": "integratedTerminal"
     },
+    {
+      "name": "Server Sent Events",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/server_sent_events.py",
+      "console": "integratedTerminal"
+    }
   ]
 }
