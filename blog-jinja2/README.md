@@ -345,6 +345,8 @@ The route handlers take the same arguments as standard route handlers, by they
 are decorated with `@bareasgi_jinja2.template("template.html")` and they return
 a dictionary of variables for the template to use.
 
+### Index
+
 Here is the index page route handler:
 
 ```python
@@ -364,3 +366,125 @@ Here is the index page route handler:
 
 Note how the keys of the returned dictionary match the variable names in the
 template.
+
+Finally we need to register the route. The controller has a convenience method
+for this:
+
+```python
+    def add_routes(self, app: Application) -> None:
+        app.http_router.add(
+            {'GET'},
+            '/index.html',
+            self._index
+        )
+        ...
+```
+
+It is not necessary to add the `.html`, but it seems consistent.
+
+### Create & Edit
+
+The create and edit handlers can reuse the same template.
+
+```html
+{% extends "base.html" %}
+
+{% set title = "New blog entry" %}
+
+{% block content %}
+<div class="container">
+    <h1>New Blog Entry</h1>
+
+    <form action="{{ action }}" method="post">
+
+        {% if action != '/create.html' %}
+        <input type="hidden" name="id" value="{{ blog_entry['id'] }}">
+        {% endif %}
+
+        <div class="form-group">
+            <label for"titleInput">Title</label>
+            <input type="text" class="form-control" id="titleInput" name="title" value="{{ blog_entry['title'] }}">
+        </div>
+
+        <div class="form-group">
+            <label for"descriptionInput">Description</label>
+            <textarea class="form-control" id="descriptionInput" name="description" rows="3">{{ blog_entry['description'] }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for"contentInput">Content</label>
+            <textarea class="form-control" id="contentInput" name="content" rows="10">{{ blog_entry['content'] }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+
+    </form>
+
+</div>
+{% endblock %}
+```
+
+We pass in the `action` endpoint as one of the parameters. If we are not creating
+(`{% if action != '/create.html' %})` a hidden input field holds the `id` of
+the post which then gets returned with the rest of the post data.
+
+The create handler is very simple.
+
+```python
+    @bareasgi_jinja2.template('edit.html')
+    async def create(self, scope, info, matches, content):
+        return {
+            'action': '/create.html',
+            'blog_entry': {
+                'title': '',
+                'description': '',
+                'content': '',
+            }
+        }
+```
+
+When the form is *posted* the request is handled as follows:
+
+```python
+    async def save_create(self, scope, info, matches, content):
+        try:
+            text = await text_reader(content)
+            args = dict(parse_qsl(text))
+
+            id_ = await self._repository.create(**args)
+            href = f'/read.html?id={id_}'
+
+            return 303, [(b'location', href.encode())]
+        except:  # pylint: disable=bare-except
+            return 500
+```
+
+The form will post a `content-type` of `application/x-www-form-urlencoded` which
+is read with the asynchronous `text_reader` and parsed by the standard library
+function [`urllib.parse.parse_qsl`](https://docs.python.org/3/library/urllib.parse.html#urllib.parse.parse_qsl). Once the data has been decoded, this
+is saved in the repository. If all goes to plan an id is returned and the
+request handler returns a 303 redirect with the read location of the post.
+
+The route handlers can now be added to the application.
+
+
+
+The update handler must first load the selected entry.
+
+```python
+    @bareasgi_jinja2.template('edit.html')
+    async def update(self, scope, info, matches, content):
+        args = dict(parse_qsl(scope['query_string'] or b''))
+        id_ = int(args[b'id'])
+        blog_entry = await self._repository.read_by_id(id_, None)
+        return {
+            'action': f'/update.html?id={id_}',
+            'blog_entry': blog_entry
+        }
+```
+
+Note how it expected the `id` to be found in the query string of the url. In
+the template file we 
+
+```python
+```
