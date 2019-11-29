@@ -79,5 +79,5 @@ Here is the javascript that consumes the data:
 
 ## What next?
 
-Either go back to the [table of contents](table-of-contents.md) or go
+Either go back to the [table of contents](index.md) or go
 to the [streaming fetch](streaming-fetch.md) tutorial.

@@ -164,5 +164,5 @@ matched values.
 
 ## What next?
 
-Either go back to the [table of contents](table-of-contents.md) or go to the
+Either go back to the [table of contents](index.md) or go to the
 [simple rest](simple-rest.md) tutorial.

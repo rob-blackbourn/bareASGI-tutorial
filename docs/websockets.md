@@ -114,5 +114,5 @@ server sent events or a streaming.
 
 ## What next?
 
-Either go back to the [table of contents](table-of-contents.md) or go
+Either go back to the [table of contents](index.md) or go
 to the [headers (including cookies)](headers.md) tutorial.
